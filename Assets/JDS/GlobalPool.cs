@@ -6,7 +6,7 @@ namespace JDS
 {
     public class GlobalPool : MonoBehaviour
     {
-        public static GlobalPool Instance;
+        public static GlobalPool Instance { get; private set; }
 
         public Transform pooledObjectsFolder;
 

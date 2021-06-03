@@ -2,9 +2,11 @@ using System;
 using System.Collections;
 using System.Threading;
 using Client.Components;
+using Client.States;
 using Client.Systems;
 using Client.UnityComponents;
 using Components;
+using JDS;
 using Leopotam.Ecs;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -26,6 +28,10 @@ namespace Client {
             Leopotam.Ecs.UnityIntegration.EcsWorldObserver.Create (_world);
             Leopotam.Ecs.UnityIntegration.EcsSystemsObserver.Create (_systems);
 #endif
+            
+            GameStatesManager<StateTypes>.RegisterState(StateTypes.MainMenu, new MainMenuState());
+            
+            
             _systems
                 .Add(new FitViewportInitSystem())
                 .Add(new SpinnerInitSystem())
@@ -42,19 +48,9 @@ namespace Client {
                 .OneFrame<TriggerEvent>()
                 .Inject(gameConfig)
                 .Inject(gameData)
-
-                // register your systems here, for example:
-                // .Add (new TestSystem1 ())
-                // .Add (new TestSystem2 ())
-                
-                // register one-frame components (order is important), for example:
-                // .OneFrame<TestComponent1> ()
-                // .OneFrame<TestComponent2> ()
-                
-                // inject service instances here (order doesn't important), for example:
-                // .Inject (new CameraService ())
-                // .Inject (new NavMeshSupport ())
                 .Init ();
+            
+            GameStatesManager<StateTypes>.ChangeOn(StateTypes.MainMenu);
         }
 
         void Update () {

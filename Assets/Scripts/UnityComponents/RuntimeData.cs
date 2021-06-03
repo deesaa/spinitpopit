@@ -4,7 +4,7 @@ namespace Client.UnityComponents
 {
     public static class RuntimeData
     {
-        public static Action<PopitLevelStats> OnPopitTakenChanged;
+        /*public static Action<PopitLevelStats> OnPopitTakenChanged;
         public static Action<PopitLevelStats> OnPopitCountChanged;
         public static Action<int> OnSpinsLeftChanged;
         
@@ -14,7 +14,7 @@ namespace Client.UnityComponents
         {
             get => _spinsLeft;
             set
-            {
+            {S
                 _spinsLeft = value;
                 OnSpinsLeftChanged(value);
             }
@@ -55,5 +55,6 @@ namespace Client.UnityComponents
     {
         public int count;
         public int taken;
+    }*/
     }
 }

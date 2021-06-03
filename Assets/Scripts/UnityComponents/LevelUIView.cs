@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Client.ReactiveValues;
 using Client.UnityComponents;
+using Components;
+using JDS;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,24 +15,20 @@ public class LevelUIView : MonoBehaviour
 
     private void Awake()
     {
-        RuntimeData.OnPopitCountChanged += OnPopitCountChange;
-        RuntimeData.OnPopitTakenChanged += OnPopitTakenChange;
+        ReactiveCoreG<ValueTypes>.Bind(ValueTypes.PopitLevelStats, OnLevelStatsChange);
     }
 
-    private void OnPopitCountChange(PopitLevelStats stats)
+    private void OnLevelStatsChange()
     {
-        popitCounter.text = $"Popits Taken: {stats.taken} / {stats.count}";
-    }
-    
-    private void OnPopitTakenChange(PopitLevelStats stats)
-    {
-        popitCounter.text = $"Popits Taken: {stats.taken} / {stats.count}";
-
+        PopitLevelStats popitLevelStats 
+            = ReactiveCoreG<ValueTypes>.Get<PopitLevelStats>(ValueTypes.PopitLevelStats);
+        
+        popitCounter.text =
+            $"Popits Taken: {popitLevelStats.taken} / {popitLevelStats.count}";
     }
 
     private void OnDestroy()
     {
-        RuntimeData.OnPopitCountChanged -= OnPopitCountChange;
-        RuntimeData.OnPopitTakenChanged -= OnPopitTakenChange;
+        ReactiveCoreG<ValueTypes>.Unbind(ValueTypes.PopitLevelStats, OnLevelStatsChange);
     }
 }

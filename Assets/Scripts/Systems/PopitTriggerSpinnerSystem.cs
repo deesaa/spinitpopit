@@ -1,5 +1,8 @@
-﻿using Client.UnityComponents;
+﻿using System;
+using Client.ReactiveValues;
+using Client.UnityComponents;
 using Components;
+using JDS;
 using Leopotam.Ecs;
 using UnityEngine.EventSystems;
 
@@ -16,10 +19,22 @@ namespace Client.Systems
             {
                 if(_filter.Get1(index).isTaken)
                     continue;
-            
+
                 _filter.Get1(index).popitView.OnTake();
                 _filter.Get1(index).isTaken = true;
-                RuntimeData.PopitTaken++;
+
+                PopitLevelStats popitLevelStats =
+                    ReactiveCoreG<ValueTypes>.Get<PopitLevelStats>(ValueTypes.PopitLevelStats);
+
+                popitLevelStats.taken++;
+                
+                ReactiveCoreG<ValueTypes>.Set(ValueTypes.PopitLevelStats, popitLevelStats);
+                
+                ReactiveCoreG<ValueTypes>.Change<PopitLevelStats>(ValueTypes.PopitLevelStats, x =>
+                {
+                    x.taken++;
+                    return x;
+                });
             }
         }
     }
