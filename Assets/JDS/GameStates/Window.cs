@@ -1,11 +1,13 @@
 ﻿using System;
 using Client.States;
 using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
 using UnityEngine;
 
 namespace JDS
 {
-    public abstract class Window<T> : MonoBehaviour, IWindow where T : System.Enum
+    public abstract class Window<T, TV> : BindBehaviour<TV>, IWindow where T : Enum where TV : Enum
     {
         public float showSpeed = 1f;
         public Ease easeType = Ease.InQuad;
@@ -13,14 +15,14 @@ namespace JDS
         public T windowType;
 
         public Transform container;
-        public bool IsInAnimation { private set; get; }
+        
+        private TweenerCore<Vector3, Vector3, VectorOptions> _currentTween;
         
         private void Awake()
         {
             container.gameObject.SetActive(false);
             container.position = GetHiddenPosition();
             WM<T>.RegisterWindow(windowType, this);
-            
             OnAwake();
         }
 
@@ -28,16 +30,9 @@ namespace JDS
 
         public void Show()
         {
-            if(container.gameObject.activeSelf)
-                return;
-            
             container.gameObject.SetActive(true);
-            IsInAnimation = true;
-            container.DOMove(Vector3.zero, showSpeed).SetEase(easeType).OnComplete(() =>
-            {
-                IsInAnimation = false;
-            });
-            
+            _currentTween?.Kill();
+            _currentTween = container.DOMove(Vector3.zero, showSpeed).SetEase(easeType);
             OnShow();
         }
 
@@ -45,13 +40,9 @@ namespace JDS
 
         public void Hide()
         {
-            if (!container.gameObject.activeSelf)
-                return;
-
-            IsInAnimation = true;
-            container.DOMove(GetHiddenPosition(), showSpeed).SetEase(easeType).OnComplete(() =>
+            _currentTween?.Kill();
+            _currentTween = container.DOMove(GetHiddenPosition(), showSpeed).SetEase(easeType).OnComplete(() =>
             {
-                IsInAnimation = false;
                 container.gameObject.SetActive(false);
             });
             

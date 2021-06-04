@@ -1,5 +1,9 @@
 ﻿using Client.Components;
+using Client.ReactiveValues;
+using Client.States;
 using Client.UnityComponents;
+using Components;
+using JDS;
 using Leopotam.Ecs;
 using UnityEngine;
 
@@ -15,6 +19,8 @@ namespace Client.Systems
         
         public void Run()
         {
+            if(GSM<StateType>.CurrentStateType != StateType.Level) return;
+        
             bool isSpaceDown = false;
             
             foreach (int inputIndex in _inputFilter)
@@ -37,6 +43,16 @@ namespace Client.Systems
                     spinnerRef.timeAfterRelease = 0f;
                     spinnerRef.timeOnRelease = spinnerRef.spinTime;
                     spinnerRef.currentDirection = spinnerRef.spinnerView.aimView.arrowPivot.up;
+
+                    GRC<RValueType>.Change<int>(RValueType.SpinsLeft, i => --i);
+
+                    Debug.Log(GRC<RValueType>.Get<int>(RValueType.SpinsLeft));
+
+                    if (GRC<RValueType>.Get<int>(RValueType.SpinsLeft) <= -1)
+                    {
+                        _world.NewEntity().Get<GameEvent>().gameEventType = GameEventType.LevelRestart;
+                        GSM<StateType>.SendEvent("ZeroSpinsLeft");
+                    }
                 }
                 
                 

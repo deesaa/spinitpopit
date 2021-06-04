@@ -6,6 +6,7 @@ namespace Client.States
     {
         public void OnEnter()
         {
+            //WM<WindowType>.HideAll();
             WM<WindowType>.ShowWindow(WindowType.MainMenuUI);
         }
 

@@ -8,28 +8,7 @@ using JDS;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LevelUIView : BindBehaviour
+public class LevelUIView : BindBehaviour<RValueType>
 {
-    public Text popitCounter;
-    public Text spinsLeftCounter;
-
-    private void Awake()
-    {
-        GRC<ValueTypes>.Bind(ValueTypes.PopitLevelStats, OnLevelStatsChange);
-        
-    }
-
-    private void OnLevelStatsChange()
-    {
-        PopitLevelStats popitLevelStats 
-            = GRC<ValueTypes>.Get<PopitLevelStats>(ValueTypes.PopitLevelStats);
-        
-        popitCounter.text =
-            $"Popits Taken: {popitLevelStats.taken} / {popitLevelStats.count}";
-    }
-
-    private void OnDestroy()
-    {
-        GRC<ValueTypes>.Unbind(ValueTypes.PopitLevelStats, OnLevelStatsChange);
-    }
+    
 }

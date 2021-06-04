@@ -10,9 +10,8 @@ namespace Client.Systems
         
         public void Run()
         {
-            if (Input.GetKey(KeyCode.Space))
+            if (Input.GetKey(KeyCode.E) || Input.touchCount > 0)
             {
-                Debug.Log("SPACE DOWN");
                 _world.NewEntity().Get<InputEvent>().InputType = InputType.Space;
             }
         }

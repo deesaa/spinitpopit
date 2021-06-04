@@ -20,7 +20,10 @@ namespace Client {
         public GameData gameData;
         public GameConfiguration gameConfig;
 
-        void Start () {
+        void Start ()
+        {
+            //Application.targetFrameRate = 30;
+                
             _world = new EcsWorld ();
             _systems = new EcsSystems (_world);
             
@@ -40,12 +43,14 @@ namespace Client {
                 .Add(new InputSystem())
                 .Add(new SpinSpinTimeSystem())
                 .Add(new ReleaseSpinnerSystem())
+                .Add(new LevelResetSystem())
                 .Add(new SpinnerMoveSystem())
                 .Add(new SpinnerRotateSystem())
                 .Add(new SpinnerAimSystem())
                 .Add(new PopitTriggerSpinnerSystem())
                 .OneFrame<InputEvent>()
                 .OneFrame<TriggerEvent>()
+                .OneFrame<GameEvent>()
                 .Inject(gameConfig)
                 .Inject(gameData)
                 .Init ();

@@ -12,5 +12,10 @@ namespace Client.UnityComponents
         {
             _spriteRenderer.color = Color.red;;
         }
+
+        public void Reset()
+        {
+            _spriteRenderer.color = Color.white;;
+        }
     }
 }

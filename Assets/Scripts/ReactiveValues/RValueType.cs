@@ -1,6 +1,6 @@
 ﻿namespace Client.ReactiveValues
 {
-    public enum ValueTypes
+    public enum RValueType
     {
         SpinsLeft,
         PopitLevelStats,

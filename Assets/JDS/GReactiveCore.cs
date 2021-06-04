@@ -14,8 +14,8 @@ namespace JDS
         private static readonly Dictionary<T, object> _objects 
             = new Dictionary<T, object>();
         
-        private static readonly Dictionary<T, List<Action>> _subscriptions 
-            = new Dictionary<T, List<Action>>();
+        private static readonly Dictionary<T, List<BindHandler<T>>> _subscriptions 
+            = new Dictionary<T, List<BindHandler<T>>>();
 
         public static void Set(T key, object value)
         {
@@ -30,7 +30,7 @@ namespace JDS
         public static void React(T key)
         {
             if(_subscriptions.ContainsKey(key))
-                _subscriptions[key].ForEach(x=>x());
+                _subscriptions[key].ForEach(x => x.Invoke());
 
 #if UNITY_EDITOR
             else
@@ -60,26 +60,27 @@ namespace JDS
             Set(key, newValue);
             return newValue;
         }
-        
 
-        public static void Bind(T key, Action action)
+        public static BindHandler<T> Bind(T key, Action action)
         {
-            if(!_subscriptions.ContainsKey(key))
-                _subscriptions.Add(key, new List<Action>() { action });
-            else 
-                _subscriptions[key].Add(action);
+            BindHandler<T> handler = new BindHandler<T>(action, key);
+            
+            if (!_subscriptions.ContainsKey(key))
+                _subscriptions.Add(key, new List<BindHandler<T>>() { handler });
+            else
+                _subscriptions[key].Add(handler);
+
+            return handler;
         }
 
         public static void Unbind(T key, Action action)
         {
-            if(_subscriptions[key] == null) return;
-            _subscriptions[key].Remove(action);
+            _subscriptions[key]?.RemoveAll(handler => handler.IsEqual(key, action));
         }
     
         public static void UnbindAll(T key)
-        { 
-            if(_subscriptions[key] == null) return;
-            _subscriptions[key].Clear();
+        {
+            _subscriptions[key]?.Clear();
         }
 
         public static void Change<TV>(T key, Func<TV, TV> change) where TV : struct
@@ -96,13 +97,25 @@ namespace JDS
 
     public struct BindHandler<T> where T : Enum
     {
-        private Action _action;
-        private T _valueType;
+        private readonly Action _action;
+        private readonly T _valueType;
+
         public BindHandler(Action action, T valueType)
         {
             _action = action;
             _valueType = valueType;
         }
-        
+
+        public void Invoke() => _action();
+
+        public void Destroy()
+        {
+            GRC<T>.Unbind(_valueType, _action);
+        }
+
+        public bool IsEqual(T valueType, Action action)
+        {
+            return _action == action && valueType.Equals(_valueType);
+        }
     }
 }

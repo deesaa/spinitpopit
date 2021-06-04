@@ -21,8 +21,10 @@ namespace JDS
 
         public static void ShowWindow(T windowType)
         {
-            if(windows.ContainsKey(windowType))
+            if (windows.ContainsKey(windowType))
+            {
                 windows[windowType].Show();
+            }
             
 #if UNITY_EDITOR
             else
