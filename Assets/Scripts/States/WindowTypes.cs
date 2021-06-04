@@ -2,6 +2,7 @@
 {
     public enum WindowTypes
     {
-        MenuUI
+        MainMenuUI,
+        LevelUI
     }
 }

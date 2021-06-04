@@ -12,6 +12,7 @@ namespace JDS
             = new Dictionary<T, IGameState>();
 
         private static IGameState currentState;
+        public static T CurrentStateType { private set; get; }
 
         public static void RegisterState(T name, IGameState gameState)
         {
@@ -22,16 +23,20 @@ namespace JDS
         {
             if (_gameStates.ContainsKey(name))
             {
-                if(currentState != null)
-                    currentState.OnExit();
-                
+                currentState?.OnExit();
                 currentState = _gameStates[name];
+                CurrentStateType = name;
                 currentState.OnEnter();
             }
             else
             {
                 Debug.Log($"State name: {name} does not registered");
             }
+        }
+
+        public static void SendEvent(string name)
+        {
+            currentState?.OnEvent(name);
         }
     }
 }

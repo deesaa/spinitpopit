@@ -13,7 +13,7 @@ namespace JDS
         public T windowType;
 
         public Transform container;
-        public bool IsInAnimation { private set; get; } = false; 
+        public bool IsInAnimation { private set; get; }
         
         private void Awake()
         {

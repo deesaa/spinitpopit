@@ -2,6 +2,7 @@
 {
     public enum StateTypes
     {
-        MainMenu
+        MainMenu,
+        Level
     }
 }

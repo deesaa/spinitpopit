@@ -30,8 +30,7 @@ namespace Client {
 #endif
             
             GameStatesManager<StateTypes>.RegisterState(StateTypes.MainMenu, new MainMenuState());
-            
-            
+
             _systems
                 .Add(new FitViewportInitSystem())
                 .Add(new SpinnerInitSystem())

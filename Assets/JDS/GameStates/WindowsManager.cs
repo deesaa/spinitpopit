@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Client.States;
 using UnityEngine;
 
 namespace JDS
@@ -7,6 +9,7 @@ namespace JDS
     {
         private static Dictionary<T, IWindow> windows
             = new Dictionary<T, IWindow>();
+
         public static void RegisterWindow(T windowType, IWindow window)
         {
             windows[windowType] = window;
