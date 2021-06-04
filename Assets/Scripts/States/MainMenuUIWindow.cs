@@ -6,18 +6,18 @@ using UnityEngine.UI;
 
 namespace Client.States
 {
-    public class MenuUIWindow : Window<WindowTypes>
+    public class MainMenuUIWindow : Window<WindowType>
     {
         public Button startButton;
 
-        private void Awake()
+        protected override void OnAwake()
         {
             startButton.onClick.AddListener(OnStartButtonClick);
         }
 
         private void OnStartButtonClick()
         {
-            GameStatesManager<StateTypes>.SendEvent("StartBtn");
+            GSM<StateType>.SendEvent("StartBtn");
         }
 
         protected override void OnShow()

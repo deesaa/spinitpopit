@@ -6,12 +6,12 @@ namespace Client.States
     {
         public void OnEnter()
         {
-            WindowsManager<WindowTypes>.ShowWindow(WindowTypes.MainMenuUI);
+            WM<WindowType>.ShowWindow(WindowType.MainMenuUI);
         }
 
         public void OnExit()
         {
-            WindowsManager<WindowTypes>.HideWindow(WindowTypes.MainMenuUI);
+            WM<WindowType>.HideWindow(WindowType.MainMenuUI);
         }
 
         public void OnEvent(string name)
@@ -19,7 +19,7 @@ namespace Client.States
             switch (name)
             {
                 case "StartBtn":
-                    GameStatesManager<StateTypes>.ChangeOn(StateTypes.Level);
+                    GSM<StateType>.ChangeOn(StateType.Level);
                     break;
             }
         }

@@ -15,23 +15,19 @@ namespace JDS
         {
             return (Ease) Enum.GetValues(typeof(Ease)).GetValue(Random.Range(0, Enum.GetValues(typeof(Ease)).Length));
         }
-
-        //Хуйня(охуенная) от GrOm_AmG:
+        
         public static T SetRandomEase<T>(this T t, Ease[] filter, bool includeMode) where T : Tween
         {
             List<Ease> list = Ease.GetValues(typeof(Ease)).OfType<Ease>()
                 .Where(x => filter.Contains(x) == includeMode && x < Ease.INTERNAL_Zero).ToList();
             return t.SetEase(list[Random.Range(0, list.Count)]);
         }
-
-        //Хуйня(охуенная) от GrOm_AmG:
+        
         public static T SetRandomEase<T>(this T t) where T : Tween
         {
             return t.SetEase((Ease) Random.Range(0, Ease.GetValues(typeof(Ease)).Length - 2));
         }
-
-        //Хуйня(охуенная) от GrOm_AmG: //Тут совсем поехал //Еще и выебывается //Идеальнее не сдлеать
-        //"GrOm_AmG: а работает ли расширение или по пизде поехала"
+        
         public static Sequence DoRotateWithShacking(this Transform transform, Vector3 endValue, float duration,
             float strength = 3f, int vibrato = 10, float randomness = 90f,
             bool ignoreZAxis = true, bool fadeOut = true, RotateMode mode = RotateMode.FastBeyond360)

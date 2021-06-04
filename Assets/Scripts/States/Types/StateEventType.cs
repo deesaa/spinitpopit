@@ -1,6 +1,6 @@
 ﻿namespace Client.States
 {
-    public enum StateEventTypes
+    public enum StateEventType
     {
         OnBtn
     }

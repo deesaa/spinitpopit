@@ -19,8 +19,12 @@ namespace JDS
         {
             container.gameObject.SetActive(false);
             container.position = GetHiddenPosition();
-            WindowsManager<T>.RegisterWindow(windowType, this);
+            WM<T>.RegisterWindow(windowType, this);
+            
+            OnAwake();
         }
+
+        protected virtual void OnAwake() {}
 
         public void Show()
         {

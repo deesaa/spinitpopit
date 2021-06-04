@@ -1,6 +1,6 @@
 ﻿namespace Client.States
 {
-    public enum StateTypes
+    public enum StateType
     {
         MainMenu,
         Level

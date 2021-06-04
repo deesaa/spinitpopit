@@ -5,7 +5,11 @@ using UnityEngine;
 
 namespace JDS
 {
-    public static class ReactiveCoreG<T> where T : System.Enum
+    /// <summary>
+    /// Generic Reactive Core
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public static class GRC<T> where T : System.Enum
     {
         private static readonly Dictionary<T, object> _objects 
             = new Dictionary<T, object>();
@@ -13,24 +17,25 @@ namespace JDS
         private static readonly Dictionary<T, List<Action>> _subscriptions 
             = new Dictionary<T, List<Action>>();
 
-        public static void Set(T key, object value, bool react = true)
+        public static void Set(T key, object value)
         {
-            //Debug.Log($"Set {key}");
             if(_objects.ContainsKey(key))
                 _objects[key] = value;   
             else 
                 _objects.Add(key, value);
-
-            if (react)
-                React(key);
+            
+            React(key);
         }
 
         public static void React(T key)
         {
             if(_subscriptions.ContainsKey(key))
                 _subscriptions[key].ForEach(x=>x());
+
+#if UNITY_EDITOR
             else
                 Debug.Log($"Key {key} has no subscriptions");
+#endif
         }
 
         public static TV Get<TV>(T key)
@@ -38,12 +43,22 @@ namespace JDS
             if (_objects.ContainsKey(key))
             {
                 if (_objects[key] is TV value) return value;
-                Debug.Log($"Value with key {key} can not be casted to {typeof(T)}, new created with this type");
-                return default;
+#if UNITY_EDITOR
+                Debug.Log($"Value with key {key} can not be casted to {typeof(T)}, new created now with this type");
+#endif
+                return CreateAndSetNew<TV>(key);
             }
-        
-            Debug.Log($"Key {key} is not defined, created now");
-            return default;
+#if UNITY_EDITOR
+            Debug.Log($"Key {key} is not defined, new created now");
+#endif
+            return CreateAndSetNew<TV>(key);
+        }
+
+        private static TV CreateAndSetNew<TV>(T key)
+        {
+            TV newValue = default;
+            Set(key, newValue);
+            return newValue;
         }
         
 
@@ -77,5 +92,17 @@ namespace JDS
             change(Get<TV>(key));
             React(key);
         }
+    }
+
+    public struct BindHandler<T> where T : Enum
+    {
+        private Action _action;
+        private T _valueType;
+        public BindHandler(Action action, T valueType)
+        {
+            _action = action;
+            _valueType = valueType;
+        }
+        
     }
 }

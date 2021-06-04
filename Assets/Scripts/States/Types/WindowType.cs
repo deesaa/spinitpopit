@@ -1,6 +1,6 @@
 ﻿namespace Client.States
 {
-    public enum WindowTypes
+    public enum WindowType
     {
         MainMenuUI,
         LevelUI

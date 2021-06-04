@@ -5,7 +5,11 @@ using UnityEngine;
 
 namespace JDS
 {
-    public static class WindowsManager<T> where T : System.Enum
+    /// <summary>
+    /// Window Manager
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public static class WM<T> where T : System.Enum
     {
         private static Dictionary<T, IWindow> windows
             = new Dictionary<T, IWindow>();
@@ -19,16 +23,22 @@ namespace JDS
         {
             if(windows.ContainsKey(windowType))
                 windows[windowType].Show();
+            
+#if UNITY_EDITOR
             else
                 Debug.Log($"WindowsManager: WindowName {windowType} does not registered");
+#endif
         }
         
         public static void HideWindow(T windowType)
         {
             if(windows.ContainsKey(windowType))
                 windows[windowType].Hide();
+
+#if UNITY_EDITOR
             else
                 Debug.Log($"WindowsManager: WindowName {windowType} does not registered");
+#endif
         }
 
         public static void HideAll()

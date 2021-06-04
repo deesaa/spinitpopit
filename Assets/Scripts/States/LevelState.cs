@@ -19,7 +19,7 @@ namespace Client.States
             switch (name)
             {
                 case "PlayerDeath":
-                    GameStatesManager<StateTypes>.ChangeOn(StateTypes.MainMenu);
+                    GSM<StateType>.ChangeOn(StateType.MainMenu);
                     break;
             }
         }

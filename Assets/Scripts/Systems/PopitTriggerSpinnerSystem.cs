@@ -23,17 +23,10 @@ namespace Client.Systems
                 _filter.Get1(index).popitView.OnTake();
                 _filter.Get1(index).isTaken = true;
 
-                PopitLevelStats popitLevelStats =
-                    ReactiveCoreG<ValueTypes>.Get<PopitLevelStats>(ValueTypes.PopitLevelStats);
-
-                popitLevelStats.taken++;
-                
-                ReactiveCoreG<ValueTypes>.Set(ValueTypes.PopitLevelStats, popitLevelStats);
-                
-                ReactiveCoreG<ValueTypes>.Change<PopitLevelStats>(ValueTypes.PopitLevelStats, x =>
+                GRC<ValueTypes>.Change<PopitLevelStats>(ValueTypes.PopitLevelStats, stats =>
                 {
-                    x.taken++;
-                    return x;
+                    stats.taken++;
+                    return stats;
                 });
             }
         }
