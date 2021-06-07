@@ -1,7 +1,10 @@
-﻿namespace Client.States
+﻿using JDS;
+
+namespace Client.States
 {
     public enum StateType
     {
+        SelectLevel,
         MainMenu,
         Level
     }

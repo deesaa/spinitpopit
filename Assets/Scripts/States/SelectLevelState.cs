@@ -1,30 +1,27 @@
 ﻿using JDS;
-using Leopotam.Ecs;
 
 namespace Client.States
 {
-    public class MainMenuState : GameStateEcs
+    public class SelectLevelState : GameStateEcs
     {
         public override void OnEnter()
         {
-            WM<WindowType>.ShowWindow(WindowType.MainMenuUI);
+           WM<WindowType>.ShowWindow(WindowType.SelectLevelUI);
         }
 
         public override void OnExit()
         {
-            WM<WindowType>.HideWindow(WindowType.MainMenuUI);
+            WM<WindowType>.HideWindow(WindowType.SelectLevelUI);
         }
 
         public override void OnEvent(string name)
         {
             switch (name)
             {
-                case "StartBtn":
-                    GSM<StateType>.ChangeOn(StateType.Level);
+                case "OnLevelClick":
+                    
                     break;
             }
         }
-
-        
     }
 }

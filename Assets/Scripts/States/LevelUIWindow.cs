@@ -1,13 +1,14 @@
 ﻿using Client.ReactiveValues;
 using Components;
 using JDS;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Client.States
 {
     public class LevelUIWindow : Window<WindowType, RValueType>
     {
-        public Text popitCounter;
+        public Text popitStatsCounter;
         public Text spinsLeftCounter;
 
         protected override void OnAwake()
@@ -29,6 +30,10 @@ namespace Client.States
         private void OnSpinsLeftChange()
         {
             int spinsLeft = GRC<RValueType>.Get<int>(RValueType.SpinsLeft);
+            
+            if(spinsLeft <= -1)
+                GSM<StateType>.SendEvent("ZeroSpinsLeft");
+
             spinsLeft = spinsLeft > -1 ? spinsLeft : 0;
             spinsLeftCounter.text =
                 $"Spins Left: {spinsLeft}";
@@ -39,7 +44,7 @@ namespace Client.States
             PopitLevelStats popitLevelStats 
                 = GRC<RValueType>.Get<PopitLevelStats>(RValueType.PopitLevelStats);
         
-            popitCounter.text =
+            popitStatsCounter.text =
                 $"Popits Taken: {popitLevelStats.taken} / {popitLevelStats.count}";
         }
     }

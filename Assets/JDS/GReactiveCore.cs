@@ -64,7 +64,7 @@ namespace JDS
         public static BindHandler<T> Bind(T key, Action action)
         {
             BindHandler<T> handler = new BindHandler<T>(action, key);
-            
+
             if (!_subscriptions.ContainsKey(key))
                 _subscriptions.Add(key, new List<BindHandler<T>>() { handler });
             else
@@ -95,7 +95,7 @@ namespace JDS
         }
     }
 
-    public struct BindHandler<T> where T : Enum
+    public readonly struct BindHandler<T> where T : Enum
     {
         private readonly Action _action;
         private readonly T _valueType;

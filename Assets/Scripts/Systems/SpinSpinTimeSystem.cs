@@ -1,12 +1,14 @@
 ﻿using Client.Components;
+using Client.States;
 using Client.UnityComponents;
 using Components;
+using JDS;
 using Leopotam.Ecs;
 using UnityEngine;
 
 namespace Client.Systems
 {
-    public class SpinSpinTimeSystem : IEcsRunSystem
+    public class SpinSpinTimeSystem : EcsStateRunSystem<StateType>
     {
         private EcsWorld _world;
         private EcsFilter<SpinnerRef> _spinnerFilter;
@@ -14,7 +16,7 @@ namespace Client.Systems
 
         private GameConfiguration _gameConfiguration;
 
-        public void Run()
+        protected override void OnRun()
         {
             foreach (int spinnerIndex in _spinnerFilter)
             {

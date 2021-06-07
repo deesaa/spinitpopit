@@ -6,7 +6,7 @@ namespace JDS
 {
     public class BindBehaviour<T> : MonoBehaviour where T : Enum
     {
-        private List<BindHandler<T>> _bindHandlers = new List<BindHandler<T>>();
+        private readonly List<BindHandler<T>> _bindHandlers = new List<BindHandler<T>>();
         
         private void OnDestroy()
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Leopotam.Ecs;
 using UnityEngine;
 
 namespace JDS
@@ -23,6 +24,16 @@ namespace JDS
             Debug.Log($"STATE: Register state {name}");
 #endif
             
+            _gameStates[name] = gameState;
+        }
+        
+        public static void RegisterState(T name, GameStateEcs gameState, EcsWorld world)
+        {
+            
+#if UNITY_EDITOR
+            Debug.Log($"STATE: Register esc state {name}");
+#endif
+            gameState.SetWorld(world);
             _gameStates[name] = gameState;
         }
 
@@ -49,10 +60,15 @@ namespace JDS
             }
 #endif
         }
-
+        
         public static void SendEvent(string name)
         {
             currentState?.OnEvent(name);
+        }
+
+        public static void Update()
+        {
+            currentState.Update();
         }
     }
 }

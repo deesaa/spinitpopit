@@ -14,8 +14,7 @@ namespace Client.UnityComponents
         public float currentSpeed;
 
         public Vector2 currentDirection;
-
-        //public bool canRecieveSpinTime;
+        
         public bool isReleased;
     }
 }

@@ -1,15 +1,17 @@
-﻿using Client.UnityComponents;
+﻿using Client.States;
+using Client.UnityComponents;
+using JDS;
 using Leopotam.Ecs;
 using UnityEngine;
 
 namespace Client.Systems
 {
-    public class SpinnerMoveSystem : IEcsRunSystem
+    public class SpinnerMoveSystem : EcsStateRunSystem<StateType>
     {
         private GameConfiguration _gameConfiguration;
         private EcsFilter<SpinnerRef> _filter;
-        
-        public void Run()
+
+        protected override void OnRun()
         {
             foreach (int index in _filter)
             {

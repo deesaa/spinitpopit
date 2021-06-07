@@ -11,8 +11,8 @@ namespace Client.UnityComponents
         public SpinnerView spinnerView;
         public PopitView popitView;
 
-        public LevelUIView levelUIView;
+        //public List<PopitView> scenePopitList;
 
-        public List<PopitView> scenePopitList;
+        public List<LevelView> levelViews;
     }
 }

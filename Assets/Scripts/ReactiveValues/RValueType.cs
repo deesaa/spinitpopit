@@ -4,5 +4,7 @@
     {
         SpinsLeft,
         PopitLevelStats,
+        
+        SelectedLevel
     }
 }

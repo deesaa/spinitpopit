@@ -4,6 +4,6 @@
     {
         public int UHashCode;
         public bool DeleteFlag;
-        public abstract void SetDefault();
+        public abstract void SetDefault(); 
     }
 }

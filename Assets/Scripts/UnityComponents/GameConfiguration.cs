@@ -11,6 +11,5 @@ namespace Client.UnityComponents
         public AnimationCurve spinTimeAfterReleaseToSpinTime01;
         
         public float minSpinTimeForRelease;
-        
     }
 }

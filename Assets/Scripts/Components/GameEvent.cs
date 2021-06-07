@@ -7,6 +7,7 @@
 
     public enum GameEventType
     {
+        LoadLevel,
         LevelRestart
     }
 }

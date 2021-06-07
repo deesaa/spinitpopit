@@ -1,15 +1,19 @@
 ﻿using Client.ReactiveValues;
 using Components;
 using JDS;
+using Leopotam.Ecs;
 
 namespace Client.States
 {
-    public class LevelState : IGameState
+    public class LevelState : GameStateEcs
     {
-        public void OnEnter()
+        private EcsSystems _systems;
+        
+        
+        public override void OnEnter()
         {
-            //WM<WindowType>.HideAll();
             WM<WindowType>.ShowWindow(WindowType.LevelUI);
+            WM<WindowType>.ShowWindow(WindowType.Level);
             
             GRC<RValueType>.Set(RValueType.PopitLevelStats, new PopitLevelStats()
             {
@@ -18,14 +22,18 @@ namespace Client.States
             });
             
             GRC<RValueType>.Set(RValueType.SpinsLeft, 3);
+
+            //World.NewEntity().Get<GameEvent>().gameEventType = GameEventType.LevelRestart;
+            World.NewEntity().Get<GameEvent>().gameEventType = GameEventType.LoadLevel;
         }
 
-        public void OnExit()
+        public override void OnExit()
         {
             WM<WindowType>.HideWindow(WindowType.LevelUI);
+            WM<WindowType>.HideWindow(WindowType.Level);
         }
 
-        public void OnEvent(string name)
+        public override void OnEvent(string name)
         {
             switch (name)
             {

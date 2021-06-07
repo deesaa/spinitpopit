@@ -5,9 +5,9 @@ using Leopotam.Ecs;
 
 namespace Client.Systems
 {
-    public class PopitInitSystem : IEcsInitSystem
-    {
-        private EcsWorld _world;
+    //public class PopitInitSystem : IEcsInitSystem
+    //{
+        /*private EcsWorld _world;
         private GameData _gameData;
         
         public void Init()
@@ -18,6 +18,6 @@ namespace Client.Systems
                 entity.Get<PopitRef>().popitView = p;
                 p.entity = entity;
             }
-        }
-    }
+        }*/
+    //}
 }

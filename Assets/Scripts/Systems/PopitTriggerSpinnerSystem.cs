@@ -1,5 +1,6 @@
 ﻿using System;
 using Client.ReactiveValues;
+using Client.States;
 using Client.UnityComponents;
 using Components;
 using JDS;
@@ -8,12 +9,12 @@ using UnityEngine.EventSystems;
 
 namespace Client.Systems
 {
-    public class PopitTriggerSpinnerSystem : IEcsRunSystem
+    public class PopitTriggerSpinnerSystem : EcsStateRunSystem<StateType>
     {
         private EcsWorld _world;
         private EcsFilter<PopitRef, TriggerEvent> _filter;
         
-        public void Run()
+        protected override void OnRun()
         {
             foreach (int index in _filter)
             {

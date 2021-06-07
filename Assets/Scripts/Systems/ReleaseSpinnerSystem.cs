@@ -9,18 +9,16 @@ using UnityEngine;
 
 namespace Client.Systems
 {
-    public class ReleaseSpinnerSystem : IEcsRunSystem
+    public class ReleaseSpinnerSystem : EcsStateRunSystem<StateType>
     {
         private EcsWorld _world;
         private EcsFilter<SpinnerRef> _spinnerFilter;
         private EcsFilter<InputEvent> _inputFilter;
 
         private GameConfiguration _gameConfig;
-        
-        public void Run()
+
+        protected override void OnRun()
         {
-            if(GSM<StateType>.CurrentStateType != StateType.Level) return;
-        
             bool isSpaceDown = false;
             
             foreach (int inputIndex in _inputFilter)
@@ -46,13 +44,13 @@ namespace Client.Systems
 
                     GRC<RValueType>.Change<int>(RValueType.SpinsLeft, i => --i);
 
-                    Debug.Log(GRC<RValueType>.Get<int>(RValueType.SpinsLeft));
+                    //Debug.Log(GRC<RValueType>.Get<int>(RValueType.SpinsLeft));
 
-                    if (GRC<RValueType>.Get<int>(RValueType.SpinsLeft) <= -1)
-                    {
-                        _world.NewEntity().Get<GameEvent>().gameEventType = GameEventType.LevelRestart;
-                        GSM<StateType>.SendEvent("ZeroSpinsLeft");
-                    }
+                    //if (GRC<RValueType>.Get<int>(RValueType.SpinsLeft) <= -1)
+                    //{
+                     //   _world.NewEntity().Get<GameEvent>().gameEventType = GameEventType.LevelRestart;
+                     //   GSM<StateType>.SendEvent("ZeroSpinsLeft");
+                    //}
                 }
                 
                 

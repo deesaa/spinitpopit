@@ -3,6 +3,7 @@ using Client.States;
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
+using Leopotam.Ecs;
 using UnityEngine;
 
 namespace JDS
@@ -13,11 +14,9 @@ namespace JDS
         public Ease easeType = Ease.InQuad;
         public WindowShowType showType = WindowShowType.Right;
         public T windowType;
-
         public Transform container;
-        
         private TweenerCore<Vector3, Vector3, VectorOptions> _currentTween;
-        
+
         private void Awake()
         {
             container.gameObject.SetActive(false);
@@ -25,28 +24,46 @@ namespace JDS
             WM<T>.RegisterWindow(windowType, this);
             OnAwake();
         }
-
+        
         protected virtual void OnAwake() {}
 
         public void Show()
         {
+            OnShow();
+
+            if (showType == WindowShowType.Center)
+            {
+                _currentTween?.Kill();
+                container.position = GetHiddenPosition();
+                container.gameObject.SetActive(true);
+                return;
+            }
+
             container.gameObject.SetActive(true);
             _currentTween?.Kill();
             _currentTween = container.DOMove(Vector3.zero, showSpeed).SetEase(easeType);
-            OnShow();
+            
         }
 
         protected abstract void OnShow();
 
         public void Hide()
         {
+            OnHide();
+
+            if (showType == WindowShowType.Center)
+            {
+                _currentTween?.Kill();
+                container.gameObject.SetActive(false);
+                container.position = GetHiddenPosition();
+                return;
+            }
+            
             _currentTween?.Kill();
             _currentTween = container.DOMove(GetHiddenPosition(), showSpeed).SetEase(easeType).OnComplete(() =>
             {
                 container.gameObject.SetActive(false);
             });
-            
-            OnShow();
         }
 
         protected abstract void OnHide();

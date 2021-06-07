@@ -19,6 +19,7 @@ namespace Client {
         
         public GameData gameData;
         public GameConfiguration gameConfig;
+        public PlayerStats playerStats;
 
         void Start ()
         {
@@ -26,39 +27,50 @@ namespace Client {
                 
             _world = new EcsWorld ();
             _systems = new EcsSystems (_world);
-            
+
 #if UNITY_EDITOR
             Leopotam.Ecs.UnityIntegration.EcsWorldObserver.Create (_world);
             Leopotam.Ecs.UnityIntegration.EcsSystemsObserver.Create (_systems);
 #endif
             
-            GSM<StateType>.RegisterState(StateType.MainMenu, new MainMenuState());
-            GSM<StateType>.RegisterState(StateType.Level, new LevelState());
+            playerStats.Load();
+            
+            GSM<StateType>.RegisterState(StateType.MainMenu, new MainMenuState(), _world);
+            GSM<StateType>.RegisterState(StateType.Level, new LevelState(), _world);
             
             _systems
                 .Add(new FitViewportInitSystem())
                 .Add(new SpinnerInitSystem())
-                .Add(new PopitInitSystem())
+                //.Add(new PopitInitSystem())
 
                 .Add(new InputSystem())
-                .Add(new SpinSpinTimeSystem())
-                .Add(new ReleaseSpinnerSystem())
                 .Add(new LevelResetSystem())
-                .Add(new SpinnerMoveSystem())
-                .Add(new SpinnerRotateSystem())
-                .Add(new SpinnerAimSystem())
-                .Add(new PopitTriggerSpinnerSystem())
+                
+                .Add(new LoadLevelSystem())
+
+                .Add(new SpinSpinTimeSystem().AddState(StateType.Level))
+                .Add(new ReleaseSpinnerSystem().AddState(StateType.Level))
+                .Add(new SpinnerMoveSystem().AddState(StateType.Level))
+                .Add(new SpinnerRotateSystem().AddState(StateType.Level))
+                .Add(new SpinnerAimSystem().AddState(StateType.Level))
+                .Add(new PopitTriggerSpinnerSystem().AddState(StateType.Level))
+                
+                
                 .OneFrame<InputEvent>()
                 .OneFrame<TriggerEvent>()
                 .OneFrame<GameEvent>()
+                
                 .Inject(gameConfig)
                 .Inject(gameData)
+                .Inject(playerStats)
+                
                 .Init ();
-            
+
             GSM<StateType>.ChangeOn(StateType.MainMenu);
         }
 
         void Update () {
+            GSM<StateType>.Update();
             _systems?.Run ();
         }
 
