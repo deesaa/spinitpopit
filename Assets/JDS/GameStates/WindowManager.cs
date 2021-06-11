@@ -9,7 +9,7 @@ namespace JDS
     /// Window Manager
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public static class WM<T> where T : System.Enum
+    public static class WM<T>
     {
         private static Dictionary<T, IWindow> windows
             = new Dictionary<T, IWindow>();

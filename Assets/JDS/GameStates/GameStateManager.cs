@@ -27,7 +27,7 @@ namespace JDS
             _gameStates[name] = gameState;
         }
         
-        public static void RegisterState(T name, GameStateEcs gameState, EcsWorld world)
+        public static GameStateEcs RegisterState(T name, GameStateEcs gameState, EcsWorld world)
         {
             
 #if UNITY_EDITOR
@@ -35,6 +35,7 @@ namespace JDS
 #endif
             gameState.SetWorld(world);
             _gameStates[name] = gameState;
+            return gameState;
         }
 
         public static void ChangeOn(T name)

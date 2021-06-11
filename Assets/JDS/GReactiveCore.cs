@@ -9,7 +9,7 @@ namespace JDS
     /// Generic Reactive Core
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public static class GRC<T> where T : System.Enum
+    public static class GRC<T>
     {
         private static readonly Dictionary<T, object> _objects 
             = new Dictionary<T, object>();
@@ -95,7 +95,7 @@ namespace JDS
         }
     }
 
-    public readonly struct BindHandler<T> where T : Enum
+    public readonly struct BindHandler<T>
     {
         private readonly Action _action;
         private readonly T _valueType;

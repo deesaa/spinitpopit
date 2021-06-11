@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace JDS
 {
-    public class BindBehaviour<T> : MonoBehaviour where T : Enum
+    public class BindBehaviour<T> : MonoBehaviour
     {
         private readonly List<BindHandler<T>> _bindHandlers = new List<BindHandler<T>>();
         

@@ -4,7 +4,7 @@ using Leopotam.Ecs;
 
 namespace JDS
 {
-    public abstract class EcsStateRunSystem<T> : IEcsRunSystem where T : Enum
+    /*public abstract class EcsStateRunSystem<T> : IEcsRunSystem where T : Enum
     {
         private readonly List<T> _stateTypes = new List<T>();
 
@@ -28,5 +28,5 @@ namespace JDS
             return this;
         }
         
-    }
+    }*/
 }

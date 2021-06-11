@@ -5,19 +5,22 @@ using Leopotam.Ecs;
 
 namespace Client.Systems
 {
-    //public class PopitInitSystem : IEcsInitSystem
-    //{
-        /*private EcsWorld _world;
+    public class PopitInitSystem : IEcsInitSystem
+    {
+        private EcsWorld _world;
         private GameData _gameData;
+        private PlayerStats _playerStats;
         
         public void Init()
         {
-            foreach (PopitView p in _gameData.scenePopitList)
+            var level = _gameData.levelViews[_playerStats.data.lastLevel];
+                    
+            foreach (PopitView p in level.popitViews)
             {
                 EcsEntity entity = _world.NewEntity();
                 entity.Get<PopitRef>().popitView = p;
                 p.entity = entity;
             }
-        }*/
-    //}
+        }
+    }
 }

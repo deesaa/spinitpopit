@@ -6,12 +6,12 @@ using UnityEngine;
 
 namespace Client.Systems
 {
-    public class SpinnerMoveSystem : EcsStateRunSystem<StateType>
+    public class SpinnerMoveSystem : IEcsRunSystem
     {
         private GameConfiguration _gameConfiguration;
         private EcsFilter<SpinnerRef> _filter;
 
-        protected override void OnRun()
+        public void Run()
         {
             foreach (int index in _filter)
             {

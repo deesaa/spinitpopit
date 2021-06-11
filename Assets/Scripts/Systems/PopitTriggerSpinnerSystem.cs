@@ -9,12 +9,12 @@ using UnityEngine.EventSystems;
 
 namespace Client.Systems
 {
-    public class PopitTriggerSpinnerSystem : EcsStateRunSystem<StateType>
+    public class PopitTriggerSpinnerSystem : IEcsRunSystem
     {
         private EcsWorld _world;
         private EcsFilter<PopitRef, TriggerEvent> _filter;
         
-        protected override void OnRun()
+        public void Run()
         {
             foreach (int index in _filter)
             {

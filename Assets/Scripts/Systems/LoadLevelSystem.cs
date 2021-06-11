@@ -6,7 +6,7 @@ using Leopotam.Ecs;
 
 namespace Client.Systems
 {
-    public class LoadLevelSystem : EcsStateRunSystem<StateType>
+    /*public class LoadLevelSystem : EcsStateRunSystem<StateType>
     {
         private EcsWorld _world;
         private EcsFilter<GameEvent> _filter;
@@ -30,6 +30,6 @@ namespace Client.Systems
                 }
             }
         }
-    }
+    }*/
     
 }

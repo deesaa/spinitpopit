@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace JDS
 {
-    public abstract class Window<T, TV> : BindBehaviour<TV>, IWindow where T : Enum where TV : Enum
+    public abstract class Window<T, TV> : BindBehaviour<TV>, IWindow
     {
         public float showSpeed = 1f;
         public Ease easeType = Ease.InQuad;

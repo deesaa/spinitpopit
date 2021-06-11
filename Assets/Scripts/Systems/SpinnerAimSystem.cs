@@ -7,11 +7,11 @@ using UnityEngine;
 
 namespace Client.Systems
 {
-    public class SpinnerAimSystem : EcsStateRunSystem<StateType>
+    public class SpinnerAimSystem : IEcsRunSystem
     {
         private EcsFilter<SpinnerRef> _filter;
         
-        protected override void OnRun()
+        public void Run()
         {
             foreach (int index in _filter)
             {

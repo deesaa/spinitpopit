@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Client.Systems
 {
-    public class ReleaseSpinnerSystem : EcsStateRunSystem<StateType>
+    public class ReleaseSpinnerSystem : IEcsRunSystem
     {
         private EcsWorld _world;
         private EcsFilter<SpinnerRef> _spinnerFilter;
@@ -17,7 +17,7 @@ namespace Client.Systems
 
         private GameConfiguration _gameConfig;
 
-        protected override void OnRun()
+        public void Run()
         {
             bool isSpaceDown = false;
             
