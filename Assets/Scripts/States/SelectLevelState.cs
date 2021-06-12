@@ -2,24 +2,23 @@
 
 namespace Client.States
 {
-    public class SelectLevelState : GameStateEcs
+    public class SelectLevelState : IGameState
     {
-        public override void OnEnter()
+        public void OnEnter()
         {
-           WM<WindowType>.ShowWindow(WindowType.SelectLevelUI);
+           WM<WindowType>.Show(WindowType.SelectLevelUI);
         }
 
-        public override void OnExit()
+        public void OnExit()
         {
-            WM<WindowType>.HideWindow(WindowType.SelectLevelUI);
+            WM<WindowType>.Hide(WindowType.SelectLevelUI);
         }
 
-        public override void OnEvent(string name)
+        public void StateMessage(string name)
         {
             switch (name)
             {
                 case "OnLevelClick":
-                    
                     break;
             }
         }

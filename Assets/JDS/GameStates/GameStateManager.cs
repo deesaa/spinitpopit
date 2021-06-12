@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Client.States;
 using Leopotam.Ecs;
 using UnityEngine;
 
@@ -9,49 +10,47 @@ namespace JDS
     /// Game State Manager
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public static class GSM<T> where T : Enum
+    public static class GSM<T>
     {
         private static Dictionary<T, IGameState> _gameStates
             = new Dictionary<T, IGameState>();
         
-        private static IGameState currentState;
+        private static IGameState _currentState;
         public static T CurrentStateType { private set; get;}
+        
+        public static void Add(T name, GameStateEcs gameState, EcsWorld world)
+        {
+            gameState.SetWorld(world);
+            Add(name, gameState);
+        }
 
-        public static void RegisterState(T name, IGameState gameState)
+        public static void Add(T name, IGameState gameState)
         {
             
 #if UNITY_EDITOR
             Debug.Log($"STATE: Register state {name}");
+            
+            if(_gameStates.ContainsKey(name))
+                Debug.LogWarning($"STATE: State with name {name} is already registered");
 #endif
             
             _gameStates[name] = gameState;
-        }
-        
-        public static GameStateEcs RegisterState(T name, GameStateEcs gameState, EcsWorld world)
-        {
-            
-#if UNITY_EDITOR
-            Debug.Log($"STATE: Register esc state {name}");
-#endif
-            gameState.SetWorld(world);
-            _gameStates[name] = gameState;
-            return gameState;
         }
 
         public static void ChangeOn(T name)
         {
             
 #if UNITY_EDITOR
-            string state = currentState == null ? "NULL_STATE" : $"{CurrentStateType}";
+            string state = _currentState == null ? "NULL_STATE" : $"{CurrentStateType}";
             Debug.Log($"STATE: {state} changing on {name}");
 #endif
             
             if (_gameStates.ContainsKey(name))
             {
-                currentState?.OnExit();
-                currentState = _gameStates[name];
+                _currentState?.OnExit();
+                _currentState = _gameStates[name];
                 CurrentStateType = name;
-                currentState.OnEnter();
+                _currentState.OnEnter();
             }
             
 #if UNITY_EDITOR
@@ -64,12 +63,7 @@ namespace JDS
         
         public static void SendEvent(string name)
         {
-            currentState?.OnEvent(name);
-        }
-
-        public static void Update()
-        {
-            currentState.Update();
+            _currentState?.StateMessage(name);
         }
     }
 }

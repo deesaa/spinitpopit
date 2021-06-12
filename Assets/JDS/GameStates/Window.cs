@@ -45,7 +45,7 @@ namespace JDS
             
         }
 
-        protected abstract void OnShow();
+        protected virtual void OnShow() {}
 
         public void Hide()
         {
@@ -66,7 +66,7 @@ namespace JDS
             });
         }
 
-        protected abstract void OnHide();
+        protected virtual void OnHide() { }
 
         private Vector3 GetHiddenPosition()
         {

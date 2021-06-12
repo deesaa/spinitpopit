@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Leopotam.Ecs;
 
 namespace JDS
 {
@@ -7,38 +6,21 @@ namespace JDS
     {
         void OnEnter();
         void OnExit();
-        void Update();
-        void OnEvent(string name);
+        void StateMessage(string name);
     }
 
-    public abstract class GameStateEcs : IGameState
+    public abstract class EcsGameState : IGameState
     {
-        protected EcsWorld World { get; private set; }
-
-        private List<object> _injected = new List<object>();
-
-        public void SetWorld(EcsWorld world)
+        public void OnEnter()
         {
-            World = world;
-        }
-        
-        public GameStateEcs Inject(object o)
-        {
-            _injected.Add(o);
-            return this;
+            throw new System.NotImplementedException();
         }
 
-        protected void InjectIn(EcsSystems systems)
+        public void OnExit()
         {
-            foreach (object o in _injected)
-            {
-                systems.Inject(o);
-            }
+            throw new System.NotImplementedException();
         }
-        
-        public virtual void OnEnter() { }
-        public virtual void OnExit() { }
-        public virtual void Update() { }
-        public virtual void OnEvent(string name) { }
+
+        public virtual void StateMessage(string name) { }
     }
 }

@@ -6,30 +6,26 @@ using Leopotam.Ecs;
 
 namespace Client.Systems
 {
-    /*public class LoadLevelSystem : EcsStateRunSystem<StateType>
+    public class LoadLevelSystem : IEcsRunSystem
     {
         private EcsWorld _world;
-        private EcsFilter<GameEvent> _filter;
+        private EcsFilter<SystemEvent> _filter;
         private GameData _gameData;
         private PlayerStats _playerStats;
 
-        protected override void OnRun()
+        public void Run()
         {
-            foreach (int index in _filter)
-            {
-                if (_filter.Get1(index).gameEventType == GameEventType.LoadLevel)
-                {
-                    var level = _gameData.levelViews[_playerStats.data.lastLevel];
+            if (!_filter.Contains(SystemEventType.LoadLevel))
+                return;
+            
+            var level = _gameData.levelViews[_playerStats.data.lastLevel];
                     
-                    foreach (PopitView p in level.popitViews)
-                    {
-                        EcsEntity entity = _world.NewEntity();
-                        entity.Get<PopitRef>().popitView = p;
-                        p.entity = entity;
-                    }
-                }
+            foreach (PopitView p in level.popitViews)
+            {
+                EcsEntity entity = _world.NewEntity();
+                entity.Get<PopitRef>().popitView = p;
+                p.entity = entity;
             }
         }
-    }*/
-    
+    }
 }

@@ -44,12 +44,12 @@ namespace JDS
             {
                 if (_objects[key] is TV value) return value;
 #if UNITY_EDITOR
-                Debug.Log($"Value with key {key} can not be casted to {typeof(T)}, new created now with this type");
+                Debug.LogWarning($"Value with key {key} can not be casted to {typeof(T)}, new created now with this type");
 #endif
                 return CreateAndSetNew<TV>(key);
             }
 #if UNITY_EDITOR
-            Debug.Log($"Key {key} is not defined, new created now");
+            Debug.LogWarning($"Key {key} is not defined, new created now");
 #endif
             return CreateAndSetNew<TV>(key);
         }

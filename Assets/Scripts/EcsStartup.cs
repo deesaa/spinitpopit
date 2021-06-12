@@ -15,7 +15,7 @@ namespace Client {
     sealed class EcsStartup : MonoBehaviour {
 
         EcsWorld _world;
-        //EcsSystems _systems;
+        EcsSystems _systems;
         
         public GameData gameData;
         public GameConfiguration gameConfig;
@@ -26,31 +26,53 @@ namespace Client {
             //Application.targetFrameRate = 30;
                 
             _world = new EcsWorld ();
-            //_systems = new EcsSystems (_world);
+            _systems = new EcsSystems (_world);
 
 #if UNITY_EDITOR
             Leopotam.Ecs.UnityIntegration.EcsWorldObserver.Create (_world);
-           // Leopotam.Ecs.UnityIntegration.EcsSystemsObserver.Create (_systems);
+            Leopotam.Ecs.UnityIntegration.EcsSystemsObserver.Create (_systems);
 #endif
             playerStats.Load();
-            
-            GSM<StateType>.RegisterState(StateType.MainMenu, new MainMenuState(), _world);
-            GSM<StateType>.RegisterState(StateType.Level, new LevelState(), _world)
+
+            GSM<StateType>.Add(StateType.MainMenu, new MainMenuState(), _world);
+            GSM<StateType>.Add(StateType.Level, new LevelState(), _world);
+
+            _systems
+                .Add(new FitViewportInitSystem())
+                .Add(new SpinnerInitSystem())
+                .Add(new PopitInitSystem())
+
+                .Add(new InputSystem())
+                //.Add(new LevelResetSystem())
+
+                .Add(new SpinSpinTimeSystem())
+                .Add(new ReleaseSpinnerSystem())
+                .Add(new SpinnerMoveSystem())
+                .Add(new SpinnerRotateSystem())
+                .Add(new SpinnerAimSystem())
+                .Add(new PopitTriggerSpinnerSystem())
+                
+                .OneFrame<InputEvent>()
+                .OneFrame<TriggerEvent>()
+                .OneFrame<SystemEvent>()
+                
                 .Inject(gameData)
                 .Inject(gameConfig)
-                .Inject(playerStats);
-            
+                .Inject(playerStats)
+                
+                .Init ();
 
             GSM<StateType>.ChangeOn(StateType.MainMenu);
         }
 
         void Update () {
-            GSM<StateType>.Update();
-            //_systems?.Run ();
+            _systems?.Run ();
         }
 
         void OnDestroy () {
             if (_world != null) {
+                _systems.Destroy();
+                _systems = null;
                 _world.Destroy ();
                 _world = null;
             }

@@ -9,7 +9,7 @@ namespace Client.Systems
     {
         private EcsFilter<PopitRef> _popitFilter;
         private EcsFilter<SpinnerRef> _spinnerFilter;
-        private EcsFilter<GameEvent> _gameEventFilter;
+        private EcsFilter<SystemEvent> _gameEventFilter;
 
         private GameData _gameData;
         private PlayerStats _playerStats;
@@ -18,7 +18,7 @@ namespace Client.Systems
         {
             foreach (int index in _gameEventFilter)
             {
-                if (_gameEventFilter.Get1(index).gameEventType == GameEventType.LevelRestart)
+                if (_gameEventFilter.Get1(index).systemEventType == SystemEventType.LoadLevel)
                 {
                     foreach (int popitIndex in _popitFilter)
                     {

@@ -18,11 +18,4 @@ namespace Client.States
             
         }
     }
-
-    public class MonoEntity
-    {
-        private EcsEntity _entity;
-        private GameObject _gameObject;
-
-    }
 }

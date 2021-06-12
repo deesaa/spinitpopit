@@ -7,15 +7,15 @@ namespace Client.States
     {
         public override void OnEnter()
         {
-            WM<WindowType>.ShowWindow(WindowType.MainMenuUI);
+            WM<WindowType>.Show(WindowType.MainMenuUI);
         }
 
         public override void OnExit()
         {
-            WM<WindowType>.HideWindow(WindowType.MainMenuUI);
+            WM<WindowType>.Hide(WindowType.MainMenuUI);
         }
 
-        public override void OnEvent(string name)
+        public override void StateMessage(string name)
         {
             switch (name)
             {

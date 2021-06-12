@@ -19,7 +19,7 @@ namespace JDS
             windows[windowType] = window;
         }
 
-        public static void ShowWindow(T windowType)
+        public static void Show(T windowType)
         {
             if (windows.ContainsKey(windowType))
             {
@@ -32,7 +32,7 @@ namespace JDS
 #endif
         }
         
-        public static void HideWindow(T windowType)
+        public static void Hide(T windowType)
         {
             if(windows.ContainsKey(windowType))
                 windows[windowType].Hide();

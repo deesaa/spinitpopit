@@ -17,16 +17,6 @@ namespace Client.States
             Bind(RValueType.SpinsLeft, OnSpinsLeftChange);
         }
 
-        protected override void OnShow()
-        {
-            
-        }
-
-        protected override void OnHide()
-        {
-            
-        }
-
         private void OnSpinsLeftChange()
         {
             int spinsLeft = GRC<RValueType>.Get<int>(RValueType.SpinsLeft);
