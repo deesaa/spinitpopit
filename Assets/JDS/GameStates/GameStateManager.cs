@@ -13,22 +13,20 @@ namespace JDS
     public class GSM<T>
     {
         private static GSM<T> _instance;
-
-        public static GSM<T> Get
-        {
-            get
-            {
-                if (_instance == null)
-                    _instance = new GSM<T>();
-                return _instance;
-            }
-        }
-
-        private  Dictionary<T, IGameState> _gameStates
-            = new Dictionary<T, IGameState>();
+        public static GSM<T> Get => _instance;
+        
+        private  Dictionary<T, IGameState> _gameStates = new Dictionary<T, IGameState>();
         
         private IGameState _currentState;
         public T CurrentStateType { private set; get;}
+
+        public GSM()
+        {
+            if (_instance == null)
+                _instance = this;
+            else
+                Debug.LogWarning("Instance of GSM<T> is already exist");
+        }
 
         public void Add(T name, IGameState gameState)
         {

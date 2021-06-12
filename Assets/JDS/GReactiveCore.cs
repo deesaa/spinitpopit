@@ -11,11 +11,9 @@ namespace JDS
     /// <typeparam name="T"></typeparam>
     public static class GRC<T>
     {
-        private static readonly Dictionary<T, object> _objects 
-            = new Dictionary<T, object>();
+        private static readonly Dictionary<T, object> _objects = new Dictionary<T, object>();
         
-        private static readonly Dictionary<T, List<BindHandler<T>>> _subscriptions 
-            = new Dictionary<T, List<BindHandler<T>>>();
+        private static readonly Dictionary<T, List<BindHandler<T>>> _subscriptions = new Dictionary<T, List<BindHandler<T>>>();
 
         public static void Set(T key, object value)
         {

@@ -29,13 +29,15 @@ namespace Client.Systems
                 }
             }
             
+            if(isSpaceDown)
+                return;
+
             foreach (int spinnerIndex in _spinnerFilter)
             {
                 ref SpinnerRef spinnerRef = ref _spinnerFilter.Get1(spinnerIndex);
                 
                 if (spinnerRef.spinTime >= _gameConfig.minSpinTimeForRelease && 
-                    spinnerRef.isReleased == false &&
-                    isSpaceDown == false)
+                    spinnerRef.isReleased == false)
                 {
                     spinnerRef.isReleased = true;
                     spinnerRef.timeAfterRelease = 0f;
@@ -43,20 +45,8 @@ namespace Client.Systems
                     spinnerRef.currentDirection = spinnerRef.spinnerView.aimView.arrowPivot.up;
 
                     GRC<RValueType>.Change<int>(RValueType.SpinsLeft, i => --i);
-
-                    //Debug.Log(GRC<RValueType>.Get<int>(RValueType.SpinsLeft));
-
-                    //if (GRC<RValueType>.Get<int>(RValueType.SpinsLeft) <= -1)
-                    //{
-                     //   _world.NewEntity().Get<GameEvent>().gameEventType = GameEventType.LevelRestart;
-                     //   GSM<StateType>.SendEvent("ZeroSpinsLeft");
-                    //}
-                }
-                
-                
-                if (spinnerRef.spinTime <= _gameConfig.minSpinTimeForRelease && 
-                    spinnerRef.isReleased &&
-                    isSpaceDown == false)
+                } 
+                else if (spinnerRef.spinTime <= _gameConfig.minSpinTimeForRelease)
                 {
                     spinnerRef.isReleased = false;
                     spinnerRef.timeOnRelease = 0f;

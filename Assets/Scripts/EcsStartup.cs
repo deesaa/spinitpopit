@@ -42,7 +42,10 @@ namespace Client {
                 .Inject(gameData)
                 .Inject(playerStats);
 
-            _systems
+           // GSM<StateType>.Get.Add(StateType.SelectLevel, new SelectLevelState(), _world)
+           //     .Add(new SelectLevelInitSystem);
+
+           _systems
                 .Add(new FitViewportInitSystem())
                 .Add(new SpinnerInitSystem())
                 .Add(new PopitInitSystem())

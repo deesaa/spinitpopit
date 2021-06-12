@@ -22,6 +22,8 @@ namespace Client.Systems
                 entity.Get<PopitRef>().popitView = p;
                 p.entity = entity;
             }
+            
+            
         }
     }
 }
