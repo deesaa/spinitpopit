@@ -3,14 +3,14 @@ using Leopotam.Ecs;
 
 namespace Client.States
 {
-    public class MainMenuState : GameStateEcs
+    public class MainMenuState : EcsGameState
     {
-        public override void OnEnter()
+        protected override void BeforeInit()
         {
             WM<WindowType>.Show(WindowType.MainMenuUI);
         }
 
-        public override void OnExit()
+        protected override void AfterDestroy()
         {
             WM<WindowType>.Hide(WindowType.MainMenuUI);
         }
@@ -20,7 +20,7 @@ namespace Client.States
             switch (name)
             {
                 case "StartBtn":
-                    GSM<StateType>.ChangeOn(StateType.Level);
+                    GSM<StateType>.Get.ChangeOn(StateType.Level);
                     break;
             }
         }

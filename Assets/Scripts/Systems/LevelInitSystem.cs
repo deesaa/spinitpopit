@@ -1,24 +1,19 @@
-﻿using System;
+﻿using Client.States;
 using Client.UnityComponents;
 using Components;
+using JDS;
 using Leopotam.Ecs;
 
 namespace Client.Systems
 {
-    public class PopitInitSystem : IEcsRunSystem
+    public class LevelInitSystem : IEcsInitSystem
     {
         private EcsWorld _world;
-        
-        private EcsFilter<SystemEvent> _filter;
-
         private GameData _gameData;
         private PlayerStats _playerStats;
-        
-        public void Run()
+
+        public void Init()
         {
-            if (!_filter.Contains(SystemEventType.LoadLevel))
-                return;
-            
             var level = _gameData.levelViews[_playerStats.data.lastLevel];
                     
             foreach (PopitView p in level.popitViews)

@@ -10,21 +10,27 @@ namespace JDS
     /// Game State Manager
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public static class GSM<T>
+    public class GSM<T>
     {
-        private static Dictionary<T, IGameState> _gameStates
-            = new Dictionary<T, IGameState>();
-        
-        private static IGameState _currentState;
-        public static T CurrentStateType { private set; get;}
-        
-        public static void Add(T name, GameStateEcs gameState, EcsWorld world)
+        private static GSM<T> _instance;
+
+        public static GSM<T> Get
         {
-            gameState.SetWorld(world);
-            Add(name, gameState);
+            get
+            {
+                if (_instance == null)
+                    _instance = new GSM<T>();
+                return _instance;
+            }
         }
 
-        public static void Add(T name, IGameState gameState)
+        private  Dictionary<T, IGameState> _gameStates
+            = new Dictionary<T, IGameState>();
+        
+        private IGameState _currentState;
+        public T CurrentStateType { private set; get;}
+
+        public void Add(T name, IGameState gameState)
         {
             
 #if UNITY_EDITOR
@@ -37,7 +43,7 @@ namespace JDS
             _gameStates[name] = gameState;
         }
 
-        public static void ChangeOn(T name)
+        public void ChangeOn(T name)
         {
             
 #if UNITY_EDITOR
@@ -61,7 +67,7 @@ namespace JDS
 #endif
         }
         
-        public static void SendEvent(string name)
+        public void SendEvent(string name)
         {
             _currentState?.StateMessage(name);
         }

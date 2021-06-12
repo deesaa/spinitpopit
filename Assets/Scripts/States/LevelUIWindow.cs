@@ -22,7 +22,7 @@ namespace Client.States
             int spinsLeft = GRC<RValueType>.Get<int>(RValueType.SpinsLeft);
             
             if(spinsLeft <= -1)
-                GSM<StateType>.SendEvent("ZeroSpinsLeft");
+                GSM<StateType>.Get.SendEvent("ZeroSpinsLeft");
 
             spinsLeft = spinsLeft > -1 ? spinsLeft : 0;
             spinsLeftCounter.text =

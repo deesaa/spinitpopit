@@ -8,19 +8,4 @@ namespace JDS
         void OnExit();
         void StateMessage(string name);
     }
-
-    public abstract class EcsGameState : IGameState
-    {
-        public void OnEnter()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void OnExit()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public virtual void StateMessage(string name) { }
-    }
 }

@@ -8,9 +8,9 @@ using UnityEngine;
 
 namespace Client.States
 {
-    public class LevelState : GameStateEcs
+    public class LevelState : EcsGameState
     {
-        public override void OnEnter()
+        protected override void BeforeInit()
         {
             WM<WindowType>.Show(WindowType.LevelUI);
             WM<WindowType>.Show(WindowType.Level);
@@ -26,17 +26,18 @@ namespace Client.States
             World.NewEntity().Get<SystemEvent>().systemEventType = SystemEventType.LoadLevel;
         }
 
-        public override void OnExit()
+        protected override void AfterDestroy()
         {
             WM<WindowType>.Hide(WindowType.LevelUI);
             WM<WindowType>.Hide(WindowType.Level);
         }
+        
         public override void StateMessage(string name)
         {
             switch (name)
             {
                 case "ZeroSpinsLeft":
-                    GSM<StateType>.ChangeOn(StateType.MainMenu);
+                    GSM<StateType>.Get.ChangeOn(StateType.MainMenu);
                     break;
             }
         }

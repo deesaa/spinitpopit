@@ -20,7 +20,7 @@ namespace Client {
         public GameData gameData;
         public GameConfiguration gameConfig;
         public PlayerStats playerStats;
-
+        
         void Start ()
         {
             //Application.targetFrameRate = 30;
@@ -34,8 +34,13 @@ namespace Client {
 #endif
             playerStats.Load();
 
-            GSM<StateType>.Add(StateType.MainMenu, new MainMenuState(), _world);
-            GSM<StateType>.Add(StateType.Level, new LevelState(), _world);
+            GSM<StateType>.Get.Add(StateType.MainMenu, new MainMenuState(), _world);
+
+            GSM<StateType>.Get.Add(StateType.Level, new LevelState(), _world)
+                .Add(new LevelInitSystem())
+                .Add(new LevelDestroySystem())
+                .Inject(gameData)
+                .Inject(playerStats);
 
             _systems
                 .Add(new FitViewportInitSystem())
@@ -43,7 +48,6 @@ namespace Client {
                 .Add(new PopitInitSystem())
 
                 .Add(new InputSystem())
-                //.Add(new LevelResetSystem())
 
                 .Add(new SpinSpinTimeSystem())
                 .Add(new ReleaseSpinnerSystem())
@@ -62,7 +66,7 @@ namespace Client {
                 
                 .Init ();
 
-            GSM<StateType>.ChangeOn(StateType.MainMenu);
+            GSM<StateType>.Get.ChangeOn(StateType.MainMenu);
         }
 
         void Update () {

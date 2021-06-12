@@ -1,10 +1,11 @@
-﻿using Leopotam.Ecs;
+﻿using JDS;
+using Leopotam.Ecs;
 
 namespace Client.Systems
 {
     public static class EcsExt
     {
-        public static bool Contains<T>(this EcsFilter<T> filter, object value) where T : struct
+        /*public static bool Contains<T>(this EcsFilter<T> filter, object value) where T : struct
         {
             if (filter.IsEmpty())
                 return false;
@@ -19,6 +20,13 @@ namespace Client.Systems
                 }
             }
             return contains;
+        }*/
+        
+        public static EcsGameState Add<T>(this GSM<T> gsm, T name, EcsGameState ecsGameState, EcsWorld world)
+        {
+            ecsGameState.SetWorld(world);
+            gsm.Add(name, ecsGameState);
+            return ecsGameState;
         }
     }
 }
