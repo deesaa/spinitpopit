@@ -45,6 +45,7 @@ namespace Client {
                 .Inject(playerStats);
 
             GSM<StateType>.Get.Add(StateType.SelectLevel, new SelectLevelState(), _world);
+            GSM<StateType>.Get.Add(StateType.Transition, new TransitionState());
 
             // GSM<StateType>.Get.Add(StateType.SelectLevel, new SelectLevelState(), _world)
            //     .Add(new SelectLevelInitSystem);
@@ -62,6 +63,8 @@ namespace Client {
                 .Add(new SpinnerRotateSystem())
                 .Add(new SpinnerAimSystem())
                 .Add(new PopitTriggerSpinnerSystem())
+                
+                .Add(new DeleteSystem())
                 
                 .OneFrame<InputEvent>()
                 .OneFrame<TriggerEvent>()

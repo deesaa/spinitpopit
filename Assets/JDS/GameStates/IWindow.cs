@@ -1,4 +1,6 @@
-﻿namespace JDS
+﻿using System;
+
+namespace JDS
 {
     public interface IWindow
     {

@@ -14,6 +14,9 @@ namespace Client.UnityComponents
 
         private void OnCollisionEnter2D(Collision2D other)
         {
+            if(!entity.IsAlive())
+                return;
+            
             entity.Get<SpinnerRef>().currentDirection = 
                 Vector3.Reflect(entity.Get<SpinnerRef>().currentDirection, other.contacts[0].normal);
         }

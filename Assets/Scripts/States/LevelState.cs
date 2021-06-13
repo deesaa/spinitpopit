@@ -25,11 +25,9 @@ namespace Client.States
             });
             
             GRC<RValueType>.Set(RValueType.SpinsLeft, 3);
-
-            World.NewEntity().Get<SystemEvent>().systemEventType = SystemEventType.LoadLevel;
         }
 
-        protected override void BeforeDestroy(Action @continue)
+        protected override void BeforeDestroy()
         {
             WM<WindowType>.Hide(WindowType.LevelUI);
             WM<WindowType>.Hide(WindowType.Level);
@@ -40,8 +38,11 @@ namespace Client.States
             switch (name)
             {
                 case "ZeroSpinsLeft":
-                    GSM<StateType>.Get.ChangeOn(StateType.MainMenu);
+                {
+                    GRC<RValueType>.Set(RValueType.NextState, StateType.MainMenu);
+                    GSM<StateType>.Get.ChangeOn(StateType.Transition);
                     break;
+                }
             }
         }
     }

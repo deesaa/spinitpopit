@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50e09a0e6fc04d2697beab5aa6fba74c, type: 3}
   m_Name: LevelUIShowSide
   m_EditorClassIdentifier: 
-  showSpeed: 0.4
+  showSpeed: 0.35
   biasMultiplier: 1
   easeType: 9
   showType: 0

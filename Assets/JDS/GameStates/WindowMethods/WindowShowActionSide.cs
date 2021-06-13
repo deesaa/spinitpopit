@@ -16,7 +16,7 @@ namespace JDS
         public Side showType = Side.Right;
         
         private TweenerCore<Vector3, Vector3, VectorOptions> _currentTween;
-        
+
         public override void SetStart(Transform windowContainer)
         {
             windowContainer.gameObject.SetActive(false);
@@ -28,7 +28,7 @@ namespace JDS
             windowContainer.gameObject.SetActive(true);
             _currentTween = windowContainer.DOMove(Vector3.zero, showSpeed).SetEase(easeType);
         }
-        
+
         public override void Break()
         {
             _currentTween?.Kill();

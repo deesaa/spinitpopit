@@ -6,6 +6,7 @@ namespace Client.States
     {
         SelectLevel,
         MainMenu,
-        Level
+        Level,
+        Transition
     }
 }

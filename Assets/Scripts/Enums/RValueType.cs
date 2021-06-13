@@ -5,6 +5,7 @@
         SpinsLeft,
         PopitLevelStats,
         
-        SelectedLevel
+        SelectedLevel,
+        NextState
     }
 }

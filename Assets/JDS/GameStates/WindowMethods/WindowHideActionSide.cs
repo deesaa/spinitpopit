@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using System;
+using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using UnityEditor;
@@ -15,6 +16,8 @@ namespace JDS
         public Side showType = Side.Right;
         
         private TweenerCore<Vector3, Vector3, VectorOptions> _currentTween;
+
+   
         
         public override void Apply(Transform windowContainer)
         {
