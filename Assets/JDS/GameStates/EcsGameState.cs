@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Leopotam.Ecs;
 using UnityEngine;
 
@@ -66,14 +67,16 @@ namespace JDS
 
         protected virtual void AfterInit() { }
         
-        protected virtual void BeforeDestroy() { }
+        protected virtual void BeforeDestroy(Action @continue) { }
 
         public void OnExit()
         {
-            BeforeDestroy();
-            
+            BeforeDestroy(ProceedDestroy);
+        }
+
+        private void ProceedDestroy()
+        {
             _stateSystems.Destroy();
-            
             AfterDestroy();
         }
 

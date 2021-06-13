@@ -1,7 +1,10 @@
-﻿using Client.Components;
+﻿using System;
+using Client.Components;
 using Client.ReactiveValues;
 using Client.Systems;
 using Components;
+using DG.Tweening;
+using DG.Tweening.Core;
 using JDS;
 using Leopotam.Ecs;
 using UnityEngine;
@@ -26,7 +29,7 @@ namespace Client.States
             World.NewEntity().Get<SystemEvent>().systemEventType = SystemEventType.LoadLevel;
         }
 
-        protected override void AfterDestroy()
+        protected override void BeforeDestroy(Action @continue)
         {
             WM<WindowType>.Hide(WindowType.LevelUI);
             WM<WindowType>.Hide(WindowType.Level);

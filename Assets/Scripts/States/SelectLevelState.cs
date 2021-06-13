@@ -2,19 +2,19 @@
 
 namespace Client.States
 {
-    public class SelectLevelState : IGameState
+    public class SelectLevelState : EcsGameState
     {
-        public void OnEnter()
+        protected override void BeforeInit()
         {
            WM<WindowType>.Show(WindowType.SelectLevelUI);
         }
 
-        public void OnExit()
+        protected override void AfterDestroy()
         {
             WM<WindowType>.Hide(WindowType.SelectLevelUI);
         }
 
-        public void StateMessage(string name)
+        public override void StateMessage(string name)
         {
             switch (name)
             {

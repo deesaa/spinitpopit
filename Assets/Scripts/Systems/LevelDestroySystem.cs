@@ -10,15 +10,26 @@ namespace Client.Systems
         private GameData _gameData;
         private PlayerStats _playerStats;
 
-        private EcsFilter<PopitRef> _filter;
+        private EcsFilter<PopitRef> _popitFilter;
+        private EcsFilter<SpinnerRef> _spinnerFilter;
+        private EcsFilter<LevelRef> _levelFilter;
 
         public void Destroy()
         {
-            foreach (int index in _filter)
+            foreach (int index in _levelFilter)
             {
-                ref PopitRef popitRef = ref _filter.Get1(index);
-                popitRef.isTaken = false;
-                _filter.GetEntity(index).Destroy();
+                UnityEngine.Object.Destroy(_levelFilter.Get1(index).levelView.gameObject);
+                _levelFilter.GetEntity(index).Destroy();
+            }
+            
+            foreach (int index in _popitFilter)
+            {
+                _popitFilter.GetEntity(index).Destroy();
+            }
+            
+            foreach (int index in _spinnerFilter)
+            {
+                _spinnerFilter.GetEntity(index).Destroy();
             }
         }
     }

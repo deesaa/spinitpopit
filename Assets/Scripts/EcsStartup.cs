@@ -14,8 +14,9 @@ using UnityEngine.Networking;
 namespace Client {
     sealed class EcsStartup : MonoBehaviour {
 
-        EcsWorld _world;
-        EcsSystems _systems;
+        private EcsWorld _world;
+        private EcsSystems _systems;
+        private GSM<StateType> _gsm;
         
         public GameData gameData;
         public GameConfiguration gameConfig;
@@ -27,6 +28,7 @@ namespace Client {
                 
             _world = new EcsWorld ();
             _systems = new EcsSystems (_world);
+            _gsm = new GSM<StateType>();
 
 #if UNITY_EDITOR
             Leopotam.Ecs.UnityIntegration.EcsWorldObserver.Create (_world);
@@ -42,13 +44,15 @@ namespace Client {
                 .Inject(gameData)
                 .Inject(playerStats);
 
-           // GSM<StateType>.Get.Add(StateType.SelectLevel, new SelectLevelState(), _world)
+            GSM<StateType>.Get.Add(StateType.SelectLevel, new SelectLevelState(), _world);
+
+            // GSM<StateType>.Get.Add(StateType.SelectLevel, new SelectLevelState(), _world)
            //     .Add(new SelectLevelInitSystem);
 
            _systems
                 .Add(new FitViewportInitSystem())
-                .Add(new SpinnerInitSystem())
-                .Add(new PopitInitSystem())
+                //.Add(new SpinnerInitSystem())
+                //.Add(new PopitInitSystem())
 
                 .Add(new InputSystem())
 
@@ -69,7 +73,7 @@ namespace Client {
                 
                 .Init ();
 
-            GSM<StateType>.Get.ChangeOn(StateType.MainMenu);
+            GSM<StateType>.Get.ChangeOn(StateType.Level);
         }
 
         void Update () {
