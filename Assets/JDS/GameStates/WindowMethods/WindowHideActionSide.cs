@@ -16,8 +16,6 @@ namespace JDS
         public Side showType = Side.Right;
         
         private TweenerCore<Vector3, Vector3, VectorOptions> _currentTween;
-
-   
         
         public override void Apply(Transform windowContainer)
         {

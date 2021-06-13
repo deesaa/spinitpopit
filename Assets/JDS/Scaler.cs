@@ -3,7 +3,7 @@
 namespace JDS
 {
     public class Scaler : MonoBehaviour
-    {
+    { 
         public static float ScaleFactor { get; private set; } = 1;
         
         public Transform scaleRoot;

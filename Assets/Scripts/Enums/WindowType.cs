@@ -5,6 +5,7 @@
         MainMenuUI,
         SelectLevelUI,
         LevelUI,
-        Level
+        Level,
+        SideMenuUI
     }
 }

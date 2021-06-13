@@ -40,7 +40,7 @@ namespace Client.States
                 case "ZeroSpinsLeft":
                 {
                     GRC<RValueType>.Set(RValueType.NextState, StateType.MainMenu);
-                    GSM<StateType>.Get.ChangeOn(StateType.Transition);
+                    NGSM<StateType>.Get.ChangeOn(StateType.Transition);
                     break;
                 }
             }

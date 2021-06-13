@@ -16,7 +16,7 @@ namespace Client {
 
         private EcsWorld _world;
         private EcsSystems _systems;
-        private GSM<StateType> _gsm;
+        private NGSM<StateType> _ngsm;
         
         public GameData gameData;
         public GameConfiguration gameConfig;
@@ -28,7 +28,7 @@ namespace Client {
                 
             _world = new EcsWorld ();
             _systems = new EcsSystems (_world);
-            _gsm = new GSM<StateType>();
+            _ngsm = new NGSM<StateType>();
 
 #if UNITY_EDITOR
             Leopotam.Ecs.UnityIntegration.EcsWorldObserver.Create (_world);
@@ -36,16 +36,16 @@ namespace Client {
 #endif
             playerStats.Load();
 
-            GSM<StateType>.Get.Add(StateType.MainMenu, new MainMenuState(), _world);
+            NGSM<StateType>.Get.Add(StateType.MainMenu, new MainMenuState(), _world);
 
-            GSM<StateType>.Get.Add(StateType.Level, new LevelState(), _world)
+            NGSM<StateType>.Get.Add(StateType.Level, new LevelState(), _world)
                 .Add(new LevelInitSystem())
                 .Add(new LevelDestroySystem())
                 .Inject(gameData)
                 .Inject(playerStats);
 
-            GSM<StateType>.Get.Add(StateType.SelectLevel, new SelectLevelState(), _world);
-            GSM<StateType>.Get.Add(StateType.Transition, new TransitionState());
+            NGSM<StateType>.Get.Add(StateType.SelectLevel, new SelectLevelState(), _world);
+            NGSM<StateType>.Get.Add(StateType.Transition, new TransitionState());
 
             // GSM<StateType>.Get.Add(StateType.SelectLevel, new SelectLevelState(), _world)
            //     .Add(new SelectLevelInitSystem);
@@ -74,7 +74,7 @@ namespace Client {
                 
                 .Init ();
 
-            GSM<StateType>.Get.ChangeOn(StateType.Level);
+           NGSM<StateType>.Get.ChangeOn(StateType.Level);
         }
 
         void Update () {

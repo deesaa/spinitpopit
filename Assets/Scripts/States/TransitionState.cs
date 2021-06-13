@@ -14,7 +14,7 @@ namespace Client.States
             {
                 GSM<StateType>.Get.ChangeOn(stateType);
             });*/
-            GSM<StateType>.Get.ChangeOn(stateType);
+            NGSM<StateType>.Get.ChangeOn(stateType);
         }
 
         public void OnExit()

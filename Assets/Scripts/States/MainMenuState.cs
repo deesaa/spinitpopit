@@ -33,7 +33,7 @@ namespace Client.States
             switch (name)
             {
                 case "StartBtn":
-                    GSM<StateType>.Get.ChangeOn(StateType.Level);
+                    NGSM<StateType>.Get.ChangeOn(StateType.Level);
                     break;
             }
         }
