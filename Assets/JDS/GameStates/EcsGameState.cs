@@ -73,6 +73,7 @@ namespace JDS
             BeforeDestroy();
             
             _stateSystems.Destroy();
+            _stateSystems = null;
 
             AfterDestroy();
         }

@@ -12,11 +12,10 @@ namespace Client.UnityComponents
         public AimView aimView;
         public Rigidbody2D rigidbody2D;
 
+        public Collider2D collider2D;
+        
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if(!entity.IsAlive())
-                return;
-            
             entity.Get<SpinnerRef>().currentDirection = 
                 Vector3.Reflect(entity.Get<SpinnerRef>().currentDirection, other.contacts[0].normal);
         }
@@ -28,6 +27,11 @@ namespace Client.UnityComponents
             {
                 popitView.entity.Get<TriggerEvent>().triggerType = TriggerType.SpinnerEnter;
             }
+        }
+
+        public void DisableInteraction()
+        {
+            collider2D.enabled = false;
         }
     }
 }

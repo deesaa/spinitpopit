@@ -52,8 +52,6 @@ namespace Client {
 
            _systems
                 .Add(new FitViewportInitSystem())
-                //.Add(new SpinnerInitSystem())
-                //.Add(new PopitInitSystem())
 
                 .Add(new InputSystem())
 

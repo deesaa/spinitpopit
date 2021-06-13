@@ -37,7 +37,5 @@ namespace Client.States
                     break;
             }
         }
-
-        
     }
 }

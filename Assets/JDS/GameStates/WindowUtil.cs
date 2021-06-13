@@ -17,9 +17,9 @@ namespace JDS
         }
         public static float WorldCameraHeight => MainCamera.orthographicSize * 2f;
         public static float WorldCameraWidth => WorldCameraHeight * MainCamera.aspect;
-        public static Vector3 GetHiddenPositionOnSide(Side showType)
+        public static Vector3 GetHiddenPositionOnSide(Side side)
         {
-            switch (showType)
+            switch (side)
             {
                 case Side.Right:
                     return Vector3.right * WorldCameraWidth;

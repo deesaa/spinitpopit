@@ -31,6 +31,7 @@ namespace Client.Systems
             foreach (int index in _spinnerFilter)
             {
                 _spinnerFilter.GetEntity(index).Get<Delete>().deleteDelay = 0f;
+                _spinnerFilter.Get1(index).spinnerView.DisableInteraction();
             }
         }
     }

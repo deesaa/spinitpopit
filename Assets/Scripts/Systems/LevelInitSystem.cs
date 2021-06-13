@@ -37,7 +37,6 @@ namespace Client.Systems
             spinnerRef.spinnerView = spinner;
             spinnerRef.spinTime = 0f;
             spinnerRef.spinnerView.entity = spinnerEntity;
-            spinnerRef.currentSpeed = 0f;
             spinnerRef.isReleased = false;
             spinnerRef.timeAfterRelease = 0f;
             spinnerRef.timeOnRelease = 0f;

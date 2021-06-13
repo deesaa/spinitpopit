@@ -582,6 +582,7 @@ MonoBehaviour:
   body: {fileID: 3744065736400394930}
   aimView: {fileID: 3744065736267643738}
   rigidbody2D: {fileID: 7485544888674555496}
+  collider2D: {fileID: 8417696600369179851}
 --- !u!50 &7485544888674555496
 Rigidbody2D:
   serializedVersion: 4

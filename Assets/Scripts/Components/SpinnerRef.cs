@@ -9,10 +9,7 @@ namespace Client.UnityComponents
         public float spinTime;
         public float timeOnRelease;
         public float timeAfterRelease;
-
-        public float speedOnRelease;
-        public float currentSpeed;
-
+        
         public Vector2 currentDirection;
         
         public bool isReleased;
