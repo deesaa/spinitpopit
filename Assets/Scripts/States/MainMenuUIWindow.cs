@@ -18,7 +18,7 @@ namespace Client.States
 
         private void OnStartButtonClick()
         {
-            GSM<StateType>.Get.SendEvent("StartBtn");
+            Messenger.Get.SendMessage("StartBtn");
         }
 
         protected override void OnShow()

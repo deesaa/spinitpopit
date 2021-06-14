@@ -17,8 +17,7 @@ namespace Client {
 
         private EcsWorld _world;
         private EcsSystems _systems;
-        private GSM<StateType> _gsm;
-        
+
         public GameData gameData;
         public GameConfiguration gameConfig;
         public PlayerStats playerStats;
@@ -29,7 +28,6 @@ namespace Client {
                 
             _world = new EcsWorld ();
             _systems = new EcsSystems (_world);
-            _gsm = new GSM<StateType>();
 
 #if UNITY_EDITOR
             Leopotam.Ecs.UnityIntegration.EcsWorldObserver.Create (_world);
@@ -37,22 +35,33 @@ namespace Client {
 #endif
             playerStats.Load();
 
-            GSM<StateType>.Get.Add(StateType.MainMenu, new MainMenuState(), _world);
+            var mainMenuState = new MainMenuState();
+            GSM<StateType>.Get.Add(StateType.MainMenu, mainMenuState, _world);
 
-            GSM<StateType>.Get.Add(StateType.Level, new LevelState(), _world)
+
+            var levelState = new LevelState();
+            GSM<StateType>.Get.Add(StateType.Level, levelState, _world)
                 .Add(new LevelInitSystem())
                 .Add(new LevelDestroySystem())
                 .Inject(gameData)
                 .Inject(playerStats);
 
-            GSM<StateType>.Get.Add(StateType.SelectLevel, new SelectLevelState(), _world);
+            var selectLevelState = new SelectLevelState();
+            GSM<StateType>.Get.Add(StateType.SelectLevel, selectLevelState, _world);
+
+            var sideMenuState = new SideMenuState();
+            GSM<StateType>.Get.Add(StateType.SideMenu, sideMenuState, _world);
+
             GSM<StateType>.Get.Add(StateType.Transition, new TransitionState());
 
-            GSM<StateType>.Get.Add(StateType.SideMenu, new SideMenuState(), _world);
 
-            // GSM<StateType>.Get.Add(StateType.SelectLevel, new SelectLevelState(), _world)
-           //     .Add(new SelectLevelInitSystem);
-
+            Messenger.Get
+                .Add(mainMenuState)
+                .Add(levelState)
+                .Add(selectLevelState)
+                .Add(sideMenuState);
+            
+            
            _systems
                 .Add(new FitViewportInitSystem())
 
@@ -69,8 +78,7 @@ namespace Client {
                 
                 .OneFrame<InputEvent>()
                 .OneFrame<TriggerEvent>()
-                .OneFrame<SystemEvent>()
-                
+
                 .Inject(gameData)
                 .Inject(gameConfig)
                 .Inject(playerStats)

@@ -25,7 +25,7 @@ namespace Client.States
             int spinsLeft = GRC<RValueType>.Get<int>(RValueType.SpinsLeft);
             
             if(spinsLeft <= -1)
-                GSM<StateType>.Get.SendEvent("ZeroSpinsLeft");
+                Messenger.Get.SendSureMessage("ZeroSpinsLeft");
 
             spinsLeft = spinsLeft > -1 ? spinsLeft : 0;
             spinsLeftCounter.text =
@@ -43,7 +43,7 @@ namespace Client.States
 
         private void OnSideMenuBtn()
         {
-            GSM<StateType>.Get.SendEvent("OnSideMenuBtn");
+            Messenger.Get.SendMessage("OnSideMenuBtn");
         }
 
         protected override void AfterDestroy()

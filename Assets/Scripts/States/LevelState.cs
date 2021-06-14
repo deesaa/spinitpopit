@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace Client.States
 {
-    public class LevelState : EcsGameState
+    public class LevelState : EcsGameState, IMessageReceiver
     {
         protected override void BeforeInit()
         {
@@ -25,20 +25,25 @@ namespace Client.States
             });
             
             GRC<RValueType>.Set(RValueType.SpinsLeft, 3);
+            
+            Messenger.Get.EnableReceiver(this);
         }
 
         protected override void BeforeDestroy()
         {
             WM<WindowType>.Hide(WindowType.LevelUI);
             WM<WindowType>.Hide(WindowType.Level);
+            
+            Messenger.Get.DisableReceiver(this);
         }
-        
-        public override void StateMessage(string name)
+
+        public void ReceiveMessage(MessageHandler message)
         {
-            switch (name)
+            switch (message.Message)
             {
                 case "ZeroSpinsLeft":
                 {
+                    message.Received();
                     GRC<RValueType>.Set(RValueType.NextState, StateType.MainMenu);
                     GSM<StateType>.Get.ChangeOn(StateType.MainMenu);
                     break;
@@ -46,6 +51,7 @@ namespace Client.States
 
                 case "OnSideMenuBtn":
                 {
+                    message.Received();
                     GSM<StateType>.Get.Nest(StateType.SideMenu);
                     break;
                 }
@@ -54,12 +60,12 @@ namespace Client.States
 
         public override void MovedForward()
         {
-            //Time.timeScale = 0;
+            Messenger.Get.DisableReceiver(this);
         }
 
         public override void MovedBack()
         {
-            //Time.timeScale = 1;
+            Messenger.Get.EnableReceiver(this);
         }
     }
 }

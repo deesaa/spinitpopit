@@ -69,7 +69,6 @@ namespace JDS
         }
         
         protected virtual void AfterDestroy() { }
-        public virtual void StateMessage(string name) { }
         public virtual void MovedForward() { }
         public virtual void MovedBack() { }
     }

@@ -11,26 +11,18 @@ using UnityEngine;
 namespace JDS
 {
     /// <summary>
-    /// NestedGameStateManager
+    /// GameStateManager
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class GSM<T>
     {
         private readonly Dictionary<T, IGameState> _gameStates = new Dictionary<T, IGameState>();
         private IGameState _currentState;
-        private static GSM<T> _instance;
         private Stack<GameStateElement<T>> _nestedStates = new Stack<GameStateElement<T>>();
         
-        public static GSM<T> Get => _instance;
+        public static GSM<T> Get = new GSM<T>();
         public T CurrentStateType { protected set; get;}
         
-        public GSM()
-        {
-            if (_instance == null)
-                _instance = this;
-            else
-                DebugLog.LogWarning("Instance of GSM<T> already exists");
-        }
         
         public void Add(T name, IGameState gameState)
         {
@@ -50,7 +42,7 @@ namespace JDS
                 {
                     _nestedStates.Pop().Exit();
                 }
-                string stateName = _currentState == null ? "NULL_STATE" : $"{StatesQueueToString()}";
+                string stateName = _currentState == null ? "NULL_STATE" : $"{StatesStackToString()}";
                 DebugLog.Log($"{stateName} change on {name}", "STATE QUEUE");
 
                 var state = _gameStates[name];
@@ -69,13 +61,13 @@ namespace JDS
             if (_nestedStates.Any(x => x.Equals(name)))
             {
                 DebugLog.LogWarning($"Can't enqueue {name} state, this state is already enqueued");
-                DebugLog.LogWarning($"Current Queue: {StatesQueueToString()}");
+                DebugLog.LogWarning($"Current Queue: {StatesStackToString()}");
                 return;
             }
 
             if (_gameStates.ContainsKey(name))
             {
-                string stateName = _currentState == null ? "NULL_STATE" : $"{StatesQueueToString()}";
+                string stateName = _currentState == null ? "NULL_STATE" : $"{StatesStackToString()}";
                 DebugLog.Log($"{stateName} nest {name}", "STATE QUEUE");
                 
                 var state = _gameStates[name];
@@ -100,32 +92,27 @@ namespace JDS
                     _nestedStates.Peek().MovedBack();
                     _currentState = _nestedStates.Peek().GameState;
                     
-                    string stateName = _currentState == null ? "NULL_STATE" : $"{StatesQueueToString()}";
+                    string stateName = _currentState == null ? "NULL_STATE" : $"{StatesStackToString()}";
                     DebugLog.Log(stateName, "STATE QUEUE");
                 }
                 else
                 {
                     DebugLog.LogWarning("Can't dequeue last queued state");
-                    DebugLog.LogWarning(StatesQueueToString(), "STATE QUEUE");
+                    DebugLog.LogWarning(StatesStackToString(), "STATE QUEUE");
                     break;
                 }
             }
         }
 
-        private string StatesQueueToString()
+        private string StatesStackToString()
         {
             StringBuilder builder = new StringBuilder();
             foreach (var stateElement in _nestedStates)
             {
                 builder.Append($"{stateElement} -> ");
             }
-            builder.Append("<--");
+            builder.Append("<--/");
             return builder.ToString();
-        }
-
-        public void SendEvent(string name)
-        {
-            _currentState?.StateMessage(name);
         }
     }
     

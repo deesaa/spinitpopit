@@ -6,7 +6,6 @@ namespace JDS
     {
         void OnEnter();
         void OnExit();
-        void StateMessage(string name);
         void MovedForward();
         void MovedBack();
     }

@@ -17,7 +17,7 @@ namespace States
 
         public void OnBackBtn()
         {
-            GSM<StateType>.Get.SendEvent("OnBackBtn");
+            Messenger.Get.SendMessage("OnBackBtn");
         }
 
         protected override void AfterDestroy()
