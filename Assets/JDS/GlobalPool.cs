@@ -35,7 +35,7 @@ namespace JDS
             var element = prototypes.Find(x => x.GetType() == typeof(T));
             if(element == null) 
             {
-                Debug.Log($"No prototype for this type {typeof(T)}");
+                DebugLog.Log($"No prototype for this type {typeof(T)}", o:this);
                 return null;    
             }
         
@@ -82,7 +82,7 @@ namespace JDS
 
             if (!_poolDictionary.TryGetValue(typeof(T), out elementsPool))
             {
-                Debug.LogError("Pool must have type list at this point");
+                DebugLog.LogError("Pool must have type list at this point", o:this);
                 return null;
             }
 

@@ -21,7 +21,7 @@ namespace Client.Systems
             }
             return contains;
         }*/
-        
+
         public static EcsGameState Add<T>(this GSM<T> gsm, T name, EcsGameState ecsGameState, EcsWorld world)
         {
             ecsGameState.SetWorld(world);

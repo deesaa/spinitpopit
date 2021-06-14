@@ -2,6 +2,7 @@
 using DG.Tweening;
 using JDS;
 using Leopotam.Ecs;
+using UnityEngine;
 
 namespace Client.States
 {
@@ -33,7 +34,11 @@ namespace Client.States
             switch (name)
             {
                 case "StartBtn":
-                    NGSM<StateType>.Get.ChangeOn(StateType.Level);
+                    GSM<StateType>.Get.ChangeOn(StateType.Level);
+                    break;
+                
+                case "SideMenuBtn":
+                    GSM<StateType>.Get.Nest(StateType.SideMenu);
                     break;
             }
         }

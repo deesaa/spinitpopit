@@ -18,7 +18,7 @@ namespace Client.States
 
         private void OnStartButtonClick()
         {
-            NGSM<StateType>.Get.SendEvent("StartBtn");
+            GSM<StateType>.Get.SendEvent("StartBtn");
         }
 
         protected override void OnShow()

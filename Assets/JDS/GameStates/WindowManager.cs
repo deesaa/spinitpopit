@@ -25,22 +25,16 @@ namespace JDS
             {
                 windows[windowType].Show();
             }
-            
-#if UNITY_EDITOR
             else
-                Debug.Log($"WindowsManager: WindowName {windowType} does not registered");
-#endif
+                DebugLog.Log($"WindowName {windowType} does not registered", "WindowsManager");
         }
         
         public static void Hide(T windowType)
         {
             if(windows.ContainsKey(windowType))
                 windows[windowType].Hide();
-
-#if UNITY_EDITOR
             else
-                Debug.Log($"WindowsManager: WindowName {windowType} does not registered");
-#endif
+                DebugLog.Log($"WindowName {windowType} does not registered", "WindowsManager");
         }
 
         public static void HideAll()

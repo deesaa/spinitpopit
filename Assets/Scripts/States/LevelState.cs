@@ -40,10 +40,26 @@ namespace Client.States
                 case "ZeroSpinsLeft":
                 {
                     GRC<RValueType>.Set(RValueType.NextState, StateType.MainMenu);
-                    NGSM<StateType>.Get.ChangeOn(StateType.Transition);
+                    GSM<StateType>.Get.ChangeOn(StateType.MainMenu);
+                    break;
+                }
+
+                case "OnSideMenuBtn":
+                {
+                    GSM<StateType>.Get.Nest(StateType.SideMenu);
                     break;
                 }
             }
+        }
+
+        public override void MovedForward()
+        {
+            //Time.timeScale = 0;
+        }
+
+        public override void MovedBack()
+        {
+            //Time.timeScale = 1;
         }
     }
 }

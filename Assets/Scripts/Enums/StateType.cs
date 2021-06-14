@@ -7,6 +7,7 @@ namespace Client.States
         SelectLevel,
         MainMenu,
         Level,
-        Transition
+        Transition,
+        SideMenu
     }
 }

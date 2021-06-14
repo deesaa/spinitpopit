@@ -11,18 +11,21 @@ namespace Client.States
         public Text popitStatsCounter;
         public Text spinsLeftCounter;
 
+        public Button sideMenuBtn;
+
         protected override void OnAwake()
         {
             Bind(RValueType.PopitLevelStats, OnLevelStatsChange);
             Bind(RValueType.SpinsLeft, OnSpinsLeftChange);
+            sideMenuBtn.onClick.AddListener(OnSideMenuBtn);
         }
-
+        
         private void OnSpinsLeftChange()
         {
             int spinsLeft = GRC<RValueType>.Get<int>(RValueType.SpinsLeft);
             
             if(spinsLeft <= -1)
-                NGSM<StateType>.Get.SendEvent("ZeroSpinsLeft");
+                GSM<StateType>.Get.SendEvent("ZeroSpinsLeft");
 
             spinsLeft = spinsLeft > -1 ? spinsLeft : 0;
             spinsLeftCounter.text =
@@ -36,6 +39,16 @@ namespace Client.States
         
             popitStatsCounter.text =
                 $"Popits Taken: {popitLevelStats.taken} / {popitLevelStats.count}";
+        }
+
+        private void OnSideMenuBtn()
+        {
+            GSM<StateType>.Get.SendEvent("OnSideMenuBtn");
+        }
+
+        protected override void AfterDestroy()
+        {
+            sideMenuBtn.onClick.RemoveAllListeners();
         }
     }
 }

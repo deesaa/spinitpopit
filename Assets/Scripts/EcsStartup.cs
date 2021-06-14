@@ -8,6 +8,7 @@ using Client.UnityComponents;
 using Components;
 using JDS;
 using Leopotam.Ecs;
+using States;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -16,7 +17,7 @@ namespace Client {
 
         private EcsWorld _world;
         private EcsSystems _systems;
-        private NGSM<StateType> _ngsm;
+        private GSM<StateType> _gsm;
         
         public GameData gameData;
         public GameConfiguration gameConfig;
@@ -28,7 +29,7 @@ namespace Client {
                 
             _world = new EcsWorld ();
             _systems = new EcsSystems (_world);
-            _ngsm = new NGSM<StateType>();
+            _gsm = new GSM<StateType>();
 
 #if UNITY_EDITOR
             Leopotam.Ecs.UnityIntegration.EcsWorldObserver.Create (_world);
@@ -36,16 +37,18 @@ namespace Client {
 #endif
             playerStats.Load();
 
-            NGSM<StateType>.Get.Add(StateType.MainMenu, new MainMenuState(), _world);
+            GSM<StateType>.Get.Add(StateType.MainMenu, new MainMenuState(), _world);
 
-            NGSM<StateType>.Get.Add(StateType.Level, new LevelState(), _world)
+            GSM<StateType>.Get.Add(StateType.Level, new LevelState(), _world)
                 .Add(new LevelInitSystem())
                 .Add(new LevelDestroySystem())
                 .Inject(gameData)
                 .Inject(playerStats);
 
-            NGSM<StateType>.Get.Add(StateType.SelectLevel, new SelectLevelState(), _world);
-            NGSM<StateType>.Get.Add(StateType.Transition, new TransitionState());
+            GSM<StateType>.Get.Add(StateType.SelectLevel, new SelectLevelState(), _world);
+            GSM<StateType>.Get.Add(StateType.Transition, new TransitionState());
+
+            GSM<StateType>.Get.Add(StateType.SideMenu, new SideMenuState(), _world);
 
             // GSM<StateType>.Get.Add(StateType.SelectLevel, new SelectLevelState(), _world)
            //     .Add(new SelectLevelInitSystem);
@@ -74,7 +77,7 @@ namespace Client {
                 
                 .Init ();
 
-           NGSM<StateType>.Get.ChangeOn(StateType.Level);
+           GSM<StateType>.Get.ChangeOn(StateType.Level);
         }
 
         void Update () {
