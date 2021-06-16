@@ -7,9 +7,9 @@ namespace JDS
     /// <summary>
     /// Deprecated, use GReactiveCore (GRC)
     /// </summary>
-    public class ReactiveCore : MonoBehaviour
+    public class ReactiveCore0 : MonoBehaviour
     {
-        public static ReactiveCore Instance;
+        public static ReactiveCore0 Instance;
         
         private readonly Dictionary<string, object> _objects 
             = new Dictionary<string, object>();
@@ -78,6 +78,6 @@ namespace JDS
     
     public static class RC
     {
-        public static ReactiveCore Get => ReactiveCore.Instance;
+        public static ReactiveCore0 Get => ReactiveCore0.Instance;
     }
 }

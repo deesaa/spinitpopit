@@ -19,8 +19,10 @@ namespace JDS
         
         public override void Apply(Transform windowContainer)
         {
+            var position = WindowUtil.GetHiddenPositionOnSide(showType) * biasMultiplier;
+            
             _currentTween = windowContainer
-                .DOMove(WindowUtil.GetHiddenPositionOnSide(showType) * biasMultiplier, showSpeed)
+                .DOMove(position, showSpeed)
                 .SetEase(easeType)
                 .OnComplete(() =>
                 {

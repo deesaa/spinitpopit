@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50e09a0e6fc04d2697beab5aa6fba74c, type: 3}
   m_Name: SideMenuShowSide
   m_EditorClassIdentifier: 
-  showSpeed: 0.2
-  biasMultiplier: 0.35
+  showSpeed: 0.35
+  biasMultiplier: 1
   easeType: 5
   showType: 0

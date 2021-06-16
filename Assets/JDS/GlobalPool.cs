@@ -79,7 +79,6 @@ namespace JDS
             takingElement.parent = this;
             takingElement.gameObject.SetActive(true);
             
-
             if (!_poolDictionary.TryGetValue(typeof(T), out elementsPool))
             {
                 DebugLog.LogError("Pool must have type list at this point", o:this);

@@ -18,11 +18,10 @@ namespace JDS
     {
         private readonly Dictionary<T, IGameState> _gameStates = new Dictionary<T, IGameState>();
         private IGameState _currentState;
-        private Stack<GameStateElement<T>> _nestedStates = new Stack<GameStateElement<T>>();
+        private Stack<GameStateElement> _nestedStates = new Stack<GameStateElement>();
         
         public static GSM<T> Get = new GSM<T>();
         public T CurrentStateType { protected set; get;}
-        
         
         public void Add(T name, IGameState gameState)
         {
@@ -42,11 +41,11 @@ namespace JDS
                 {
                     _nestedStates.Pop().Exit();
                 }
-                string stateName = _currentState == null ? "NULL_STATE" : $"{StatesStackToString()}";
-                DebugLog.Log($"{stateName} change on {name}", "STATE QUEUE");
+                
+                DebugLog.Log($"{StatesStackToString()} change on {name}", "STATE QUEUE");
 
                 var state = _gameStates[name];
-                _nestedStates.Push(new GameStateElement<T>(state, name));
+                _nestedStates.Push(new GameStateElement(state, name));
                 _currentState = state;
                 state.OnEnter();
             }
@@ -67,11 +66,10 @@ namespace JDS
 
             if (_gameStates.ContainsKey(name))
             {
-                string stateName = _currentState == null ? "NULL_STATE" : $"{StatesStackToString()}";
-                DebugLog.Log($"{stateName} nest {name}", "STATE QUEUE");
+                DebugLog.Log($"{StatesStackToString()} nest {name}", "STATE QUEUE");
                 
                 var state = _gameStates[name];
-                _nestedStates.Push(new GameStateElement<T>(state, name));
+                _nestedStates.Push(new GameStateElement(state, name));
                 _currentState?.MovedForward();
                 _currentState = state;
                 state.OnEnter();
@@ -92,8 +90,7 @@ namespace JDS
                     _nestedStates.Peek().MovedBack();
                     _currentState = _nestedStates.Peek().GameState;
                     
-                    string stateName = _currentState == null ? "NULL_STATE" : $"{StatesStackToString()}";
-                    DebugLog.Log(stateName, "STATE QUEUE");
+                    DebugLog.Log(StatesStackToString, "STATE QUEUE");
                 }
                 else
                 {
@@ -106,48 +103,41 @@ namespace JDS
 
         private string StatesStackToString()
         {
+            if (_currentState == null)
+                return "NULL_STATE";
+            
+            
             StringBuilder builder = new StringBuilder();
             foreach (var stateElement in _nestedStates)
             {
                 builder.Append($"{stateElement} -> ");
             }
             builder.Append("<--/");
+
             return builder.ToString();
         }
-    }
-    
-    public struct GameStateElement<T>
-    {
-        private IGameState _gameState;
-        private T name;
 
-        public IGameState GameState => _gameState;
-
-        public GameStateElement(IGameState gameState, T name)
+        private struct GameStateElement
         {
-            _gameState = gameState;
-            this.name = name;
-        }
+            private IGameState _gameState;
+            private T name;
+            public IGameState GameState => _gameState;
 
-        public void Exit()
-        {
-            DebugLog.Log($"Exit state {name}", "STATE");
+            public GameStateElement(IGameState gameState, T name)
+            {
+                _gameState = gameState;
+                this.name = name;
+            }
+
+            public void Exit()
+            {
+                DebugLog.Log($"Exit state {name}", "STATE");
+                _gameState.OnExit();
+            }
             
-            _gameState.OnExit();
-        }
-        
-        public void MovedBack()
-        {
-            _gameState.MovedBack();
-        }
-
-        public bool Equals(T other)
-        {
-            return name.Equals(other);
-        }
-        public override string ToString()
-        {
-            return name.ToString();
+            public void MovedBack() => _gameState.MovedBack();
+            public bool Equals(T other) => name.Equals(other);
+            public override string ToString() => name.ToString();
         }
     }
 }

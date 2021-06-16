@@ -6,6 +6,7 @@ using Components;
 using DG.Tweening;
 using DG.Tweening.Core;
 using JDS;
+using JDS.Messenger;
 using Leopotam.Ecs;
 using UnityEngine;
 
@@ -44,7 +45,6 @@ namespace Client.States
                 case "ZeroSpinsLeft":
                 {
                     message.Received();
-                    GRC<RValueType>.Set(RValueType.NextState, StateType.MainMenu);
                     GSM<StateType>.Get.ChangeOn(StateType.MainMenu);
                     break;
                 }

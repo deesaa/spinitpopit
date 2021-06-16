@@ -1,5 +1,6 @@
 ﻿using System;
 using JDS;
+using JDS.Messenger;
 
 namespace Client.States
 {

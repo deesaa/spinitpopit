@@ -23,8 +23,10 @@ namespace JDS
 
         public override void SetStart(Transform windowContainer)
         {
+            var position = WindowUtil.GetHiddenPositionOnSide(showType) * biasMultiplier;
+
             windowContainer.gameObject.SetActive(false);
-            windowContainer.position = WindowUtil.GetHiddenPositionOnSide(showType) * biasMultiplier;
+            windowContainer.position = position;
         }
         
         public override void Apply(Transform windowContainer)

@@ -1,16 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using UnityEngine;
 
-namespace JDS
+namespace JDS.Messenger
 {
     public class Messenger
     {
-        public static Messenger Get = new Messenger();
+        public static readonly Messenger Get = new Messenger();
         
-        private List<MessageReceiverElement> _messageReceivers = new List<MessageReceiverElement>();
-        private List<MessageHandler> _sureMessages = new List<MessageHandler>();
+        private readonly List<MessageReceiverElement> _messageReceivers = new List<MessageReceiverElement>();
+        private readonly List<MessageHandler> _sureMessages = new List<MessageHandler>();
 
         public Messenger Add(IMessageReceiver messageReceiver)
         {
@@ -28,32 +26,37 @@ namespace JDS
 
         public void EnableReceiver(IMessageReceiver receiver)
         {
-            int index = _messageReceivers.FindIndex(x => x.Equals(receiver));
-            if (index <= -1)
+            if (TryFindReceiverIndex(receiver, out int index))
             {
-                DebugLog.LogWarning("Cant find receiver to enable");
-                return;
+                _messageReceivers[index].IsActive = true;
+                SendSureMessages();
             }
-            _messageReceivers[index].IsActive = true;
-            SendSureMessages();
         }
 
         public void DisableReceiver(IMessageReceiver receiver)
         {
-            int index = _messageReceivers.FindIndex(x => x.Equals(receiver));
+            if (TryFindReceiverIndex(receiver, out int index))
+            {
+                _messageReceivers[index].IsActive = false;
+            }
+        }
+
+        public bool TryFindReceiverIndex(IMessageReceiver receiver, out int index)
+        {
+            index = _messageReceivers.FindIndex(x => x.Equals(receiver));
             if (index <= -1)
             {
                 DebugLog.LogWarning("Cant find receiver to disable");
-                return;
+                return false;
             }
-            _messageReceivers[index].IsActive = false;
+            return true;
         }
 
         public void SendSureMessage(string message)
         {
             if (_sureMessages.Any(x => x.Equals(message)))
             {
-                DebugLog.LogWarning($"Sure messages already contains message: {message}");    
+                DebugLog.LogWarning($"Sure messages already contains message: {message}", "REMAINING SURE MESSAGES");    
                 return;
             }
             
@@ -63,6 +66,9 @@ namespace JDS
 
         private void SendSureMessages()
         {
+            if(_sureMessages.Count <= 0 || _messageReceivers.Count <= 0)
+                return;
+            
             bool isDirty = false;
             
             foreach (var receiverElement in _messageReceivers)
@@ -71,7 +77,7 @@ namespace JDS
                 {
                     if (!receiverElement.TrySendMessage(messageHandler)) continue;
                     
-                    if (messageHandler.IsReceived)
+                    if (messageHandler.IsReceived.Value)
                     {
                         isDirty = true;
                         break;
@@ -81,18 +87,32 @@ namespace JDS
             
             if(isDirty)
                 ClearReceivedMessages();
+            
+            if(_sureMessages.Count > 0)
+                DebugLog.LogWarning(GetLogSureMessages(), "REMAINING SURE MESSAGES");
+        }
+
+        private string GetLogSureMessages()
+        {
+            string log = "";
+            foreach (var messageHandler in _sureMessages)
+            {
+                log += messageHandler.Message + ", ";
+            }
+
+            return log;
         }
 
         private void ClearReceivedMessages()
         {
-            _sureMessages.RemoveAll(x => x.IsReceived);
+            _sureMessages.RemoveAll(x => x.IsReceived.Value);
         }
 
         private class MessageReceiverElement
         {
             public bool IsActive;
             
-            private IMessageReceiver _messageReceiver;
+            private readonly IMessageReceiver _messageReceiver;
             public MessageReceiverElement(IMessageReceiver messageReceiver, bool isActive = false)
             {
                 _messageReceiver = messageReceiver;
@@ -103,6 +123,9 @@ namespace JDS
             {
                 if (!IsActive)
                     return false;
+                
+                DebugLog.Log(message.Message, "MESSAGE SEND");
+                
                 _messageReceiver.ReceiveMessage(message);
                 return true;
             }
@@ -112,31 +135,5 @@ namespace JDS
                 return _messageReceiver == messageReceiver;
             }
         }
-    }
-    
-    public class MessageHandler
-    {
-        private string _message;
-        private bool _isReceived;
-
-        public MessageHandler(string message, bool isReceived = false)
-        {
-            _message = message;
-            _isReceived = isReceived;
-        }
-
-        public string Message => _message;
-        public void Received() => _isReceived = true;
-        public bool IsReceived => _isReceived;
-
-        public bool Equals(string message)
-        {
-            return _message == message;
-        }
-    }
-
-    public interface IMessageReceiver
-    {
-        void ReceiveMessage(MessageHandler message);
     }
 }
