@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using JDS.NewRC;
 using Leopotam.Ecs;
 using UnityEngine;
 
 namespace JDS
 {
-    public abstract class EcsGameState : IGameState
+    public abstract class EcsGameState<T> : GroupObservable<T>, IGameState
     {
         protected EcsWorld World { get; private set; }
 
@@ -16,19 +17,19 @@ namespace JDS
         
         public void SetWorld(EcsWorld world) => World = world;
 
-        public EcsGameState Add(IEcsInitSystem stateInitSystems)
+        public EcsGameState<T> Add(IEcsInitSystem stateInitSystems)
         {
             _stateInitSystems.Add(stateInitSystems);
             return this;
         }
             
-        public EcsGameState Add(IEcsDestroySystem stateDestroySystem)
+        public EcsGameState<T> Add(IEcsDestroySystem stateDestroySystem)
         {
             _stateDestroySystems.Add(stateDestroySystem);
             return this;
         }
         
-        public EcsGameState Inject(object o)
+        public EcsGameState<T> Inject(object o)
         {
             _inject.Add(o);
             return this;
@@ -52,17 +53,12 @@ namespace JDS
                 _stateSystems.Inject(o);
 
             _stateSystems.Init();
-            
-            AfterInit();
         }
-        
-        protected virtual void AfterInit() { }
         
         protected virtual void BeforeDestroy() { }
         
         public void OnExit()
         {
-            BeforeDestroy();
             _stateSystems.Destroy();
             _stateSystems = null;
             AfterDestroy();

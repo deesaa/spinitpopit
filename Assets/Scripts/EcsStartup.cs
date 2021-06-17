@@ -2,12 +2,14 @@ using System;
 using System.Collections;
 using System.Threading;
 using Client.Components;
+using Client.ReactiveValues;
 using Client.States;
 using Client.Systems;
 using Client.UnityComponents;
 using Components;
 using JDS;
 using JDS.Messenger;
+using JDS.NewRC;
 using Leopotam.Ecs;
 using States;
 using UnityEngine;
@@ -55,15 +57,7 @@ namespace Client {
 
             GSM<StateType>.Get.Add(StateType.Transition, new TransitionState());
 
-
-            Messenger.Get
-                .Add(mainMenuState)
-                .Add(levelState)
-                .Add(selectLevelState)
-                .Add(sideMenuState);
-            
-            
-           _systems
+            _systems
                 .Add(new FitViewportInitSystem())
 
                 .Add(new InputSystem())
@@ -86,7 +80,13 @@ namespace Client {
                 
                 .Init ();
 
-           GSM<StateType>.Get.ChangeOn(StateType.Level);
+            RC<RValueType>.Get
+                .Add(mainMenuState)
+                .Add(levelState)
+                .Add(selectLevelState)
+                .Add(sideMenuState);
+
+            GSM<StateType>.Get.ChangeOn(StateType.Level);
         }
 
         void Update () {

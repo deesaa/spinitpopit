@@ -3,6 +3,7 @@ using Client.ReactiveValues;
 using DG.Tweening;
 using JDS;
 using JDS.Messenger;
+using JDS.NewRC;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,7 +20,7 @@ namespace Client.States
 
         private void OnStartButtonClick()
         {
-            Messenger.Get.SendMessage("StartBtn");
+            RC<RValueType>.Get.Override(RValueType.OnStartBtn, true);
         }
 
         protected override void OnShow()

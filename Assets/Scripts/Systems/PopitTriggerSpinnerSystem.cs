@@ -4,6 +4,7 @@ using Client.States;
 using Client.UnityComponents;
 using Components;
 using JDS;
+using JDS.NewRC;
 using Leopotam.Ecs;
 using UnityEngine.EventSystems;
 
@@ -24,11 +25,13 @@ namespace Client.Systems
                 _filter.Get1(index).popitView.OnTake();
                 _filter.Get1(index).isTaken = true;
 
-                GRC<RValueType>.Change<PopitLevelStats>(RValueType.PopitLevelStats, stats =>
+                PopitLevelStats lastStats = GO<RValueType>.Get.PeekLast<PopitLevelStats>(RValueType.PopitLevelStats);
+                RC<RValueType>.Get.Override(RValueType.PopitLevelStats, new PopitLevelStats()
                 {
-                    stats.taken++;
-                    return stats;
+                    count = lastStats.count,
+                    taken = ++lastStats.taken
                 });
+                
             }
         }
     }

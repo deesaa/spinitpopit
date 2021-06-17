@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace JDS
 {
-    public abstract class Window<T, TV> : BindBehaviour<TV>, IWindow
+    public abstract class Window<T, TV> : ObservedBehaviour<TV>, IWindow
     {
         public T windowType;
         public Transform container;
@@ -14,8 +14,9 @@ namespace JDS
         public IWindowShowAction windowShowAction;
         public IWindowHideAction windowHideAction;
 
-        private void Awake()
+        protected sealed override void AfterAwake()
         {
+            SetGroupName(windowType.ToString());
             windowShowAction.SetStart(container);
             WM<T>.RegisterWindow(windowType, this);
             OnAwake();

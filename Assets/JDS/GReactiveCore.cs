@@ -7,7 +7,7 @@ namespace JDS
     /// Generic Reactive Core
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public static class GRC<T>
+    /*public static class GRC<T>
     {
         private static readonly Dictionary<T, object> _objects = new Dictionary<T, object>();
         
@@ -107,5 +107,5 @@ namespace JDS
         {
             return _action == action && valueType.Equals(_valueType);
         }
-    }
+    }*/
 }

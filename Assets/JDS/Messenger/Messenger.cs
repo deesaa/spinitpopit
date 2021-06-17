@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace JDS.Messenger
 {
-    public class Messenger
+    /*public class Messenger
     {
         public static readonly Messenger Get = new Messenger();
         
@@ -135,5 +135,5 @@ namespace JDS.Messenger
                 return _messageReceiver == messageReceiver;
             }
         }
-    }
+    }*/
 }

@@ -4,6 +4,7 @@ using Client.States;
 using Client.UnityComponents;
 using Components;
 using JDS;
+using JDS.NewRC;
 using Leopotam.Ecs;
 using UnityEngine;
 
@@ -44,7 +45,8 @@ namespace Client.Systems
                     spinnerRef.timeOnRelease = spinnerRef.spinTime;
                     spinnerRef.currentDirection = spinnerRef.spinnerView.aimView.arrowPivot.up;
 
-                    GRC<RValueType>.Change<int>(RValueType.SpinsLeft, i => --i);
+                    int lastSpinsLeft = GO<RValueType>.Get.PeekLast<int>(RValueType.SpinsLeft);
+                    RC<RValueType>.Get.Override(RValueType.SpinsLeft, --lastSpinsLeft);
                 } 
                 else if (spinnerRef.spinTime <= _gameConfig.minSpinTimeForRelease)
                 {

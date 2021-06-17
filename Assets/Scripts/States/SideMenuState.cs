@@ -1,34 +1,30 @@
-﻿using Client.States;
+﻿using Client.ReactiveValues;
+using Client.States;
 using JDS;
 using JDS.Messenger;
 using UnityEngine;
 
 namespace States
 {
-    public class SideMenuState : EcsGameState, IMessageReceiver
+    public class SideMenuState : EcsGameState<RValueType>
     {
         protected override void BeforeInit()
         {
+            Subscribe(RValueType.OnBackBtn, OnBackBtn);
             WM<WindowType>.Show(WindowType.SideMenuUI);
-            Messenger.Get.EnableReceiver(this);
+            EnableObserver();
         }
 
         protected override void AfterDestroy()
         {
             WM<WindowType>.Hide(WindowType.SideMenuUI);
-            Messenger.Get.DisableReceiver(this);
+            DisableObserver();
+            Dispose();
         }
-        
-        public void ReceiveMessage(MessageHandler message)
+
+        private void OnBackBtn(object value)
         {
-            switch (message.Message)
-            {
-                case "OnBackBtn":
-                {
-                    GSM<StateType>.Get.Unnest();
-                    break;
-                }
-            }
+            GSM<StateType>.Get.Unnest();
         }
     }
 }

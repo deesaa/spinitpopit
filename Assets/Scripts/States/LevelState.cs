@@ -7,27 +7,31 @@ using DG.Tweening;
 using DG.Tweening.Core;
 using JDS;
 using JDS.Messenger;
+using JDS.NewRC;
 using Leopotam.Ecs;
 using UnityEngine;
 
 namespace Client.States
 {
-    public class LevelState : EcsGameState, IMessageReceiver
+    public class LevelState : EcsGameState<RValueType>
     {
         protected override void BeforeInit()
         {
+            Subscribe(RValueType.GameOver, OnGameOver);
+            Subscribe(RValueType.OnSideMenuBtn, OnSideMenuBtn);
+            
             WM<WindowType>.Show(WindowType.LevelUI);
             WM<WindowType>.Show(WindowType.Level);
             
-            GRC<RValueType>.Set(RValueType.PopitLevelStats, new PopitLevelStats()
+            RC<RValueType>.Get.Override(RValueType.PopitLevelStats, new PopitLevelStats()
             {
                 count = 3,
                 taken = 0
             });
             
-            GRC<RValueType>.Set(RValueType.SpinsLeft, 3);
+            RC<RValueType>.Get.Override(RValueType.SpinsLeft, 3);
             
-            Messenger.Get.EnableReceiver(this);
+            EnableObserver();
         }
 
         protected override void BeforeDestroy()
@@ -35,37 +39,28 @@ namespace Client.States
             WM<WindowType>.Hide(WindowType.LevelUI);
             WM<WindowType>.Hide(WindowType.Level);
             
-            Messenger.Get.DisableReceiver(this);
+            DisableObserver();
+            Dispose();
         }
 
-        public void ReceiveMessage(MessageHandler message)
+        private void OnGameOver(object value)
         {
-            switch (message.Message)
-            {
-                case "ZeroSpinsLeft":
-                {
-                    message.Received();
-                    GSM<StateType>.Get.ChangeOn(StateType.MainMenu);
-                    break;
-                }
+            GSM<StateType>.Get.ChangeOn(StateType.MainMenu);
+        }
 
-                case "OnSideMenuBtn":
-                {
-                    message.Received();
-                    GSM<StateType>.Get.Nest(StateType.SideMenu);
-                    break;
-                }
-            }
+        private void OnSideMenuBtn(object value)
+        {
+            GSM<StateType>.Get.Nest(StateType.SideMenu);
         }
 
         public override void MovedForward()
         {
-            Messenger.Get.DisableReceiver(this);
+            DisableObserver();
         }
 
         public override void MovedBack()
         {
-            Messenger.Get.EnableReceiver(this);
+            EnableObserver();
         }
     }
 }

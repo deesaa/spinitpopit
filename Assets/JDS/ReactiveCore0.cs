@@ -5,9 +5,9 @@ using UnityEngine;
 namespace JDS
 {
     /// <summary>
-    /// Deprecated, use GReactiveCore (GRC)
+    /// Deprecated, use GReactiveCore (GRC) (Deprecated too), use Reactive Core (NewRC)
     /// </summary>
-    public class ReactiveCore0 : MonoBehaviour
+    /*public class ReactiveCore0 : MonoBehaviour
     {
         public static ReactiveCore0 Instance;
         
@@ -79,5 +79,5 @@ namespace JDS
     public static class RC
     {
         public static ReactiveCore0 Get => ReactiveCore0.Instance;
-    }
+    }*/
 }

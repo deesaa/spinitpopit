@@ -6,6 +6,12 @@
         PopitLevelStats,
         
         SelectedLevel,
-        NextState
+        NextState,
+        GameOver,
+        
+        OnSideMenuBtn,
+        OnStartBtn,
+        OnLevelClick,
+        OnBackBtn
     }
 }

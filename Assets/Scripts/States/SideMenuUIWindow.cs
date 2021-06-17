@@ -2,6 +2,7 @@
 using Client.States;
 using JDS;
 using JDS.Messenger;
+using JDS.NewRC;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,7 +19,7 @@ namespace States
 
         public void OnBackBtn()
         {
-            Messenger.Get.SendMessage("OnBackBtn");
+            RC<RValueType>.Get.Override(RValueType.OnBackBtn, true);
         }
 
         protected override void AfterDestroy()

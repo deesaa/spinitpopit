@@ -2,6 +2,7 @@
 using Components;
 using JDS;
 using JDS.Messenger;
+using JDS.NewRC;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,27 +17,28 @@ namespace Client.States
 
         protected override void OnAwake()
         {
-            Bind(RValueType.PopitLevelStats, OnLevelStatsChange);
-            Bind(RValueType.SpinsLeft, OnSpinsLeftChange);
+            Subscribe(RValueType.PopitLevelStats, OnLevelStatsChange);
+            Subscribe(RValueType.SpinsLeft, OnSpinsLeftChange);
             sideMenuBtn.onClick.AddListener(OnSideMenuBtn);
         }
         
-        private void OnSpinsLeftChange()
+        private void OnSpinsLeftChange(object value)
         {
-            int spinsLeft = GRC<RValueType>.Get<int>(RValueType.SpinsLeft);
-            
-            if(spinsLeft <= -1)
-                Messenger.Get.SendSureMessage("ZeroSpinsLeft");
+            int spinsLeft = (int) value;
 
+            if (spinsLeft <= -1)
+            {
+                RC<RValueType>.Get.Override(RValueType.GameOver, true);
+            }
+            
             spinsLeft = spinsLeft > -1 ? spinsLeft : 0;
             spinsLeftCounter.text =
                 $"Spins Left: {spinsLeft}";
         }
         
-        private void OnLevelStatsChange()
+        private void OnLevelStatsChange(object levelStats)
         {
-            PopitLevelStats popitLevelStats 
-                = GRC<RValueType>.Get<PopitLevelStats>(RValueType.PopitLevelStats);
+            PopitLevelStats popitLevelStats = (PopitLevelStats) levelStats;
         
             popitStatsCounter.text =
                 $"Popits Taken: {popitLevelStats.taken} / {popitLevelStats.count}";
@@ -44,7 +46,7 @@ namespace Client.States
 
         private void OnSideMenuBtn()
         {
-            Messenger.Get.SendMessage("OnSideMenuBtn");
+            RC<RValueType>.Get.Override(RValueType.OnSideMenuBtn, true);
         }
 
         protected override void AfterDestroy()

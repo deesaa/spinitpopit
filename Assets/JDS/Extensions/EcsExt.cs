@@ -22,7 +22,7 @@ namespace Client.Systems
             return contains;
         }*/
 
-        public static EcsGameState Add<T>(this GSM<T> gsm, T name, EcsGameState ecsGameState, EcsWorld world)
+        public static EcsGameState<TV> Add<T, TV>(this GSM<T> gsm, T name, EcsGameState<TV> ecsGameState, EcsWorld world)
         {
             ecsGameState.SetWorld(world);
             gsm.Add(name, ecsGameState);
