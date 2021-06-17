@@ -23,6 +23,7 @@ namespace Client.States
             {
                 count = 3,
                 taken = 0
+                
             });
             
             GRC<RValueType>.Set(RValueType.SpinsLeft, 3);
