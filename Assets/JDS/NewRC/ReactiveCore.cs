@@ -6,80 +6,138 @@ namespace JDS.NewRC
 
     public class TestRC
     {
+        
         public void Test()
         {
-            ReactiveCore<TestValue> rc = new ReactiveCore<TestValue>();
-
-            TestGameRc testGameRc = new TestGameRc();
             
             
-
         }
     }
     
-    public class ReactiveCore<T>
+    public class RC<T>
     {
-        //public Dictionary<T, RCObserver> StateObservers = new Dictionary<T, RCObserver>();
-        
-        public Dictionary<T, RCObservable<object>> Observables = new Dictionary<T, RCObservable<object>>();
-
-        public void Subscribe<T2>(T valueType, Action<object> action)
-        {
-            Observables[valueType].Subscribe(new RCObserver<object>());
-        }
-    }
-    
-
-    public class RCObserver<T> : IObserver<T>
-    {
-        public bool isActive;
-        public void OnCompleted()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnError(Exception error)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnNext(T value)
-        {
-            throw new NotImplementedException();
-        }
+        public static RC<T> Get = new RC<T>();
     }
 
-    public class RCObservable<T> : IObservable<T>
+    public class ObservableGroup<T>
     {
-        public IDisposable Subscribe(IObserver<T> observer)
-        {
-            return new Unsubscriber<T>();
-        }
-    }
+        private Dictionary<T, ObservableKey> _observableKeys = new Dictionary<T, ObservableKey>();
+        private Dictionary<T, List<Action<object>>> _subscriptionsOnKeyChange = new Dictionary<T, List<Action<object>>>();
 
-    public class Unsubscriber<T> : IDisposable
-    {
-        public void Dispose()
+        public bool IsActive;
+
+        public void Subscribe(T key, Action<object> onChange)
         {
             
         }
-    }
 
-    public class TestGameRc : GroupObserver
-    {
-        public void Init()
+        public void Override(T key, object value)
         {
-            
+            if (TryGetBind(key, out ObservableKey observableKey, out List<Action<object>> subscriptions))
+            {
+                observableKey.Override(value, subscriptions, IsActive);
+            }
+        }
+
+        public void Push(T key, object value)
+        {
+            if (TryGetBind(key, out ObservableKey observableKey, out List<Action<object>> subscriptions))
+            {
+                observableKey.Push(value, subscriptions, IsActive);
+            }
+        }
+
+        public bool TryGetBind(T key, out ObservableKey observableKey, out List<Action<object>> actions)
+        {
+            if (_subscriptionsOnKeyChange.ContainsKey(key))
+            {
+                actions = _subscriptionsOnKeyChange[key];
+                if (actions == null)
+                {
+                    observableKey = null;
+                    return false;
+                }
+            }
+            else
+            {
+                observableKey = null;
+                actions = null;
+                return false;
+            }
+
+            if (_observableKeys.ContainsKey(key))
+            {
+                observableKey = _observableKeys[key];
+                if (observableKey == null)
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                observableKey = null;
+                actions = null;
+                return false;
+            }
+
+            return true;
         }
     }
 
-    public class GroupObserver
+    public class ObservableKey
     {
-        
+        private Queue<object> _notReceivedChanges = new Queue<object>();
+        private object _lastEnqueuedValue;
+        private void Send(List<Action<object>> subscriptions)
+        {
+            foreach (var subscription in subscriptions)
+            {
+                while (TryDequeue(out object value))
+                {
+                    subscription.Invoke(value);
+                }
+            }
+        }
+        private bool TryDequeue(out object value)
+        {
+            if (_notReceivedChanges.Count > 0)
+            {
+                value = _notReceivedChanges.Dequeue();
+                return true;
+            }
+            value = null;
+            return false;
+        }
+
+        private void Enqueue(object value)
+        {
+            _notReceivedChanges.Enqueue(value);
+            _lastEnqueuedValue = value;
+        }
+
+        public void Override(object value, List<Action<object>> subscriptions, bool canSend)
+        {
+            _notReceivedChanges.Clear();
+            Enqueue(value);
+            if(canSend)
+                Send(subscriptions);
+        }
+
+        public void Push(object value, List<Action<object>> subscriptions, bool canSend)
+        {
+            Enqueue(value);
+            if(canSend)
+                Send(subscriptions);
+        }
     }
 
-    public enum TestValue
+    public enum TestValueType
     {
-        Value
+        Value_1
+    }
+
+    public static class RC_
+    {
+        public static RC<TestValueType> Get = new RC<TestValueType>();
     }
 }
