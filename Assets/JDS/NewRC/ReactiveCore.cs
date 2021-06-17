@@ -134,6 +134,7 @@ namespace JDS.NewRC
     public enum TestValueType
     {
         Value_1
+        
     }
 
     public static class RC_

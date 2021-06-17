@@ -17,6 +17,7 @@ namespace JDS.NewRC
             if(!_groupObservables.Contains(groupObservable))
                 _groupObservables.Add(groupObservable);
             return this;
+            
         }
 
         public void Remove(GroupObservable<T> groupObservable)
