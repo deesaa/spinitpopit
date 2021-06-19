@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Threading;
 using Client.Components;
+using Client.ReactiveValues;
 using Client.States;
 using Client.Systems;
 using Client.UnityComponents;
@@ -14,7 +15,8 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Client {
-    sealed class EcsStartup : MonoBehaviour {
+    sealed class EcsStartup : MonoBehaviour 
+    {
 
         private EcsWorld _world;
         private EcsSystems _systems;
@@ -48,20 +50,22 @@ namespace Client {
                 .Inject(playerStats);
 
             var selectLevelState = new SelectLevelState();
-            GSM<StateType>.Get.Add(StateType.SelectLevel, selectLevelState, _world);
+            GSM<StateType>.Get.Add(StateType.SelectLevel, selectLevelState, _world)
+                .Add((IEcsInitSystem) new SelectLevelWindowLoadSystem())
+                .Inject(gameData);
+                
+                
 
             var sideMenuState = new SideMenuState();
             GSM<StateType>.Get.Add(StateType.SideMenu, sideMenuState, _world);
-
+            
             GSM<StateType>.Get.Add(StateType.Transition, new TransitionState());
-
 
             Messenger.Get
                 .Add(mainMenuState)
                 .Add(levelState)
                 .Add(selectLevelState)
                 .Add(sideMenuState);
-            
             
            _systems
                 .Add(new FitViewportInitSystem())
@@ -86,7 +90,7 @@ namespace Client {
                 
                 .Init ();
 
-           GSM<StateType>.Get.ChangeOn(StateType.Level);
+           GSM<StateType>.Get.ChangeOn(StateType.MainMenu);
         }
 
         void Update () {

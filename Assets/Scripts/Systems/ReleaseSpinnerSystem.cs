@@ -44,7 +44,7 @@ namespace Client.Systems
                     spinnerRef.timeOnRelease = spinnerRef.spinTime;
                     spinnerRef.currentDirection = spinnerRef.spinnerView.aimView.arrowPivot.up;
 
-                    GRC<RValueType>.Change<int>(RValueType.SpinsLeft, i => --i);
+                    RC<RValueType>.Change<int>(RValueType.SpinsLeft, i => --i);
                 } 
                 else if (spinnerRef.spinTime <= _gameConfig.minSpinTimeForRelease)
                 {

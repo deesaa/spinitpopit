@@ -23,12 +23,29 @@ namespace States
         {
             switch (message.Message)
             {
-                case "OnBackBtn":
+                case "OnBackButton":
                 {
                     GSM<StateType>.Get.Unnest();
                     break;
                 }
+                case "OnLevelsButton":
+                {
+                    GSM<StateType>.Get.Nest(StateType.SelectLevel);
+                    break;
+                }
             }
+        }
+
+        public override void MovedBack()
+        {
+            WM<WindowType>.Show(WindowType.SideMenuUI);
+            Messenger.Get.EnableReceiver(this);
+        }
+
+        public override void MovedForward()
+        {
+            WM<WindowType>.Hide(WindowType.SideMenuUI);
+            Messenger.Get.DisableReceiver(this);
         }
     }
 }

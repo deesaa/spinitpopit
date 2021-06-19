@@ -4,10 +4,10 @@ using System.Collections.Generic;
 namespace JDS
 {
     /// <summary>
-    /// Generic Reactive Core
+    /// Reactive Core
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public static class GRC<T>
+    public static class RC<T>
     {
         private static readonly Dictionary<T, object> _objects = new Dictionary<T, object>();
         
@@ -100,7 +100,7 @@ namespace JDS
 
         public void Destroy()
         {
-            GRC<T>.Unbind(_valueType, _action);
+            RC<T>.Unbind(_valueType, _action);
         }
 
         public bool IsEqual(T valueType, Action action)

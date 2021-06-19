@@ -32,7 +32,7 @@ namespace Client.States
             
         }
 
-        private void OnDestroy()
+        protected override void AfterDestroy()
         {
             startButton.onClick.RemoveListener(OnStartButtonClick);
         }

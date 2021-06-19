@@ -19,7 +19,7 @@ namespace Client.Systems
             foreach (int index in _levelFilter)
             {
                 ref Delete delete = ref _levelFilter.GetEntity(index).Get<Delete>();
-                delete.deleteDelay = 0.5f;
+                delete.deleteDelay = 0.35f;
                 delete.gameObject = _levelFilter.Get1(index).levelView.gameObject;
             }
             

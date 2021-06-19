@@ -19,7 +19,7 @@ namespace JDS
 
         protected void Bind(T valueType, Action action)
         {
-            _bindHandlers.Add(GRC<T>.Bind(valueType, action));
+            _bindHandlers.Add(RC<T>.Bind(valueType, action));
         }
 
         protected virtual void AfterDestroy() { }

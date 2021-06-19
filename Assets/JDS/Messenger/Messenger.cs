@@ -20,7 +20,8 @@ namespace JDS.Messenger
         {
             foreach (var messageReceiver in _messageReceivers)
             {
-                messageReceiver.TrySendMessage(new MessageHandler(message, true));
+                if(messageReceiver.TrySendMessage(new MessageHandler(message, true)))
+                    return;
             }
         }
 

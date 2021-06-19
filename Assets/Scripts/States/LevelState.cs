@@ -2,6 +2,7 @@
 using Client.Components;
 using Client.ReactiveValues;
 using Client.Systems;
+using Client.UnityComponents;
 using Components;
 using DG.Tweening;
 using DG.Tweening.Core;
@@ -18,14 +19,14 @@ namespace Client.States
         {
             WM<WindowType>.Show(WindowType.LevelUI);
             WM<WindowType>.Show(WindowType.Level);
-            
-            GRC<RValueType>.Set(RValueType.PopitLevelStats, new PopitLevelStats()
+
+            RC<RValueType>.Set(RValueType.PopitLevelStats, new PopitLevelStats()
             {
                 count = 3,
                 taken = 0
             });
             
-            GRC<RValueType>.Set(RValueType.SpinsLeft, 3);
+            RC<RValueType>.Set(RValueType.SpinsLeft, 3);
             
             Messenger.Get.EnableReceiver(this);
         }
@@ -42,14 +43,14 @@ namespace Client.States
         {
             switch (message.Message)
             {
-                case "ZeroSpinsLeft":
+                case "SureGameOver":
                 {
                     message.Received();
                     GSM<StateType>.Get.ChangeOn(StateType.MainMenu);
                     break;
                 }
 
-                case "OnSideMenuBtn":
+                case "OnSideMenuButton":
                 {
                     message.Received();
                     GSM<StateType>.Get.Nest(StateType.SideMenu);

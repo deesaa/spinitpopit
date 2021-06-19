@@ -1,4 +1,5 @@
-﻿using Client.States;
+﻿using Client.ReactiveValues;
+using Client.States;
 using Client.UnityComponents;
 using Components;
 using JDS;
@@ -15,7 +16,14 @@ namespace Client.Systems
 
         public void Init()
         {
-            var levelPrefab = _gameData.levelViews[_playerStats.data.lastLevel];
+            LevelView levelPrefab;
+            
+            
+            var selectedLevel = RC<RValueType>.Get<LevelView>(RValueType.SelectedLevelView);
+            if (selectedLevel == null)
+                levelPrefab = _gameData.levelViews[0];
+            else
+                levelPrefab = selectedLevel;
 
             var level = Object.Instantiate(levelPrefab, Vector3.zero, Quaternion.identity, _gameData.levelContainer);
             level.transform.localPosition = Vector3.zero;

@@ -18,15 +18,15 @@ namespace Client.States
         {
             Bind(RValueType.PopitLevelStats, OnLevelStatsChange);
             Bind(RValueType.SpinsLeft, OnSpinsLeftChange);
-            sideMenuBtn.onClick.AddListener(OnSideMenuBtn);
+            sideMenuBtn.onClick.AddListener(OnSideMenuButton);
         }
         
         private void OnSpinsLeftChange()
         {
-            int spinsLeft = GRC<RValueType>.Get<int>(RValueType.SpinsLeft);
+            int spinsLeft = RC<RValueType>.Get<int>(RValueType.SpinsLeft);
             
             if(spinsLeft <= -1)
-                Messenger.Get.SendSureMessage("ZeroSpinsLeft");
+                Messenger.Get.SendSureMessage("SureGameOver");
 
             spinsLeft = spinsLeft > -1 ? spinsLeft : 0;
             spinsLeftCounter.text =
@@ -36,15 +36,15 @@ namespace Client.States
         private void OnLevelStatsChange()
         {
             PopitLevelStats popitLevelStats 
-                = GRC<RValueType>.Get<PopitLevelStats>(RValueType.PopitLevelStats);
+                = RC<RValueType>.Get<PopitLevelStats>(RValueType.PopitLevelStats);
         
             popitStatsCounter.text =
                 $"Popits Taken: {popitLevelStats.taken} / {popitLevelStats.count}";
         }
 
-        private void OnSideMenuBtn()
+        private void OnSideMenuButton()
         {
-            Messenger.Get.SendMessage("OnSideMenuBtn");
+            Messenger.Get.SendMessage("OnSideMenuButton");
         }
 
         protected override void AfterDestroy()

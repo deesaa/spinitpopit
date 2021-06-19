@@ -10,20 +10,28 @@ namespace States
     public class SideMenuUIWindow : Window<WindowType, RValueType>
     {
         public Button backButton;
+        public Button levelsButton;
 
         protected override void OnAwake()
         {
-            backButton.onClick.AddListener(OnBackBtn);
+            backButton.onClick.AddListener(OnBackButton);
+            levelsButton.onClick.AddListener(OnLevelsButton);
         }
 
-        public void OnBackBtn()
+        private void OnLevelsButton()
         {
-            Messenger.Get.SendMessage("OnBackBtn");
+            Messenger.Get.SendMessage("OnLevelsButton");   
+        }
+
+        public void OnBackButton()
+        {
+            Messenger.Get.SendMessage("OnBackButton");
         }
 
         protected override void AfterDestroy()
         {
             backButton.onClick.RemoveAllListeners();
+            levelsButton.onClick.RemoveAllListeners();
         }
     }
 }

@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using UnityEngine;
 
+/*
+
 namespace JDS.NewRC
 {
     public class RC<T>
@@ -170,3 +172,5 @@ namespace JDS.NewRC
         Value_test2
     }
 }
+
+*/

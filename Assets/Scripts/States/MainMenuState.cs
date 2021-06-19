@@ -9,16 +9,12 @@ namespace Client.States
 {
     public class MainMenuState : EcsGameState, IMessageReceiver
     {
-        private bool _interactable = false;
-        
         protected override void BeforeInit()
         {
-            //_interactable = false;
             WM<WindowType>.Show(WindowType.MainMenuUI);
 
             DOVirtual.DelayedCall(0.3f, () =>
             {
-                //_interactable = true;
                 Messenger.Get.EnableReceiver(this);
             });
         }
@@ -31,9 +27,6 @@ namespace Client.States
         
         public void ReceiveMessage(MessageHandler message)
         {
-            //if(!_interactable)
-            //    return;
-            
             switch (message.Message)
             {
                 case "StartBtn":

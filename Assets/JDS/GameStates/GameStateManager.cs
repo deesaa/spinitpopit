@@ -47,6 +47,7 @@ namespace JDS
                 var state = _gameStates[name];
                 _nestedStates.Push(new GameStateElement(state, name));
                 _currentState = state;
+                CurrentStateType = name;
                 state.OnEnter();
             }
             else
@@ -72,6 +73,7 @@ namespace JDS
                 _nestedStates.Push(new GameStateElement(state, name));
                 _currentState?.MovedForward();
                 _currentState = state;
+                CurrentStateType = name;
                 state.OnEnter();
             }
             else
@@ -89,6 +91,7 @@ namespace JDS
                     _nestedStates.Pop().Exit();
                     _nestedStates.Peek().MovedBack();
                     _currentState = _nestedStates.Peek().GameState;
+                    CurrentStateType = _nestedStates.Peek().GetName();
                     
                     DebugLog.Log(StatesStackToString, "STATE QUEUE");
                 }
@@ -128,6 +131,8 @@ namespace JDS
                 _gameState = gameState;
                 this.name = name;
             }
+
+            public T GetName() => name;
 
             public void Exit()
             {

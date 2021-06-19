@@ -1,4 +1,6 @@
 ﻿using Client.Components;
+using Client.States;
+using JDS;
 using Leopotam.Ecs;
 using UnityEngine;
 
@@ -12,7 +14,8 @@ namespace Client.Systems
         {
             if (Input.GetKey(KeyCode.E) || Input.touchCount > 0)
             {
-                _world.NewEntity().Get<InputEvent>().InputType = InputType.Space;
+                if(GSM<StateType>.Get.CurrentStateType == StateType.Level)
+                    _world.NewEntity().Get<InputEvent>().InputType = InputType.Space;
             }
         }
     }

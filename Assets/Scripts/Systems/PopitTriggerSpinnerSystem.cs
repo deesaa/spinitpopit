@@ -24,7 +24,7 @@ namespace Client.Systems
                 _filter.Get1(index).popitView.OnTake();
                 _filter.Get1(index).isTaken = true;
 
-                GRC<RValueType>.Change<PopitLevelStats>(RValueType.PopitLevelStats, stats =>
+                RC<RValueType>.Change<PopitLevelStats>(RValueType.PopitLevelStats, stats =>
                 {
                     stats.taken++;
                     return stats;

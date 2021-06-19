@@ -1,4 +1,6 @@
-﻿using System;
+﻿/*
+
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -81,3 +83,4 @@ namespace JDS
         public static ReactiveCore0 Get => ReactiveCore0.Instance;
     }
 }
+*/
