@@ -1,4 +1,5 @@
-﻿namespace JDS.Messenger
+﻿
+namespace JDS.Messenger
 {
     public interface IMessageReceiver
     {

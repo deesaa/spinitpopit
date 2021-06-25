@@ -37,7 +37,18 @@ namespace Client.Systems
                 p.entity = popitEntity;
             }
 
-            var spinner = Object.Instantiate(_gameData.spinnerView, level.spinnerStartPoint.position,
+
+
+            SpinnerView spinnerPrefab;
+            var selectedSpinner = RC<RValueType>.Get<SpinnerView>(RValueType.SelectedSpinnerView);
+
+            if (selectedSpinner == null)
+                spinnerPrefab = _gameData.spinnerViews[0];
+            else
+                spinnerPrefab = selectedSpinner;
+                
+            
+            var spinner = Object.Instantiate(spinnerPrefab, level.spinnerStartPoint.position,
                 Quaternion.identity, level.transform);
             
             EcsEntity spinnerEntity = _world.NewEntity();
@@ -49,6 +60,14 @@ namespace Client.Systems
             spinnerRef.timeAfterRelease = 0f;
             spinnerRef.timeOnRelease = 0f;
             spinnerRef.currentDirection = Vector2.up;
+
+            EcsEntity levelInputArea = _world.NewEntity();
+            levelInputArea.Get<LevelInputAreaRef>().inputArea = _gameData.levelInputArea;
         }
+    }
+
+    public struct LevelInputAreaRef
+    {
+        public InputArea inputArea;
     }
 }

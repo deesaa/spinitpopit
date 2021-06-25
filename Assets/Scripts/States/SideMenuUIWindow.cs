@@ -11,11 +11,18 @@ namespace States
     {
         public Button backButton;
         public Button levelsButton;
+        public Button spinnersButton;
 
         protected override void OnAwake()
         {
             backButton.onClick.AddListener(OnBackButton);
             levelsButton.onClick.AddListener(OnLevelsButton);
+            spinnersButton.onClick.AddListener(OnSpinnersButton);
+        }
+
+        private void OnSpinnersButton()
+        {
+            Messenger.Get.SendMessage("OnSpinnersButton");   
         }
 
         private void OnLevelsButton()
@@ -32,6 +39,7 @@ namespace States
         {
             backButton.onClick.RemoveAllListeners();
             levelsButton.onClick.RemoveAllListeners();
+            spinnersButton.onClick.RemoveAllListeners();
         }
     }
 }

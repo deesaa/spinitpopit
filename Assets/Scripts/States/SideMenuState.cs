@@ -33,6 +33,11 @@ namespace States
                     GSM<StateType>.Get.Nest(StateType.SelectLevel);
                     break;
                 }
+                case "OnSpinnersButton":
+                {
+                    GSM<StateType>.Get.Nest(StateType.SelectSpinner);
+                    break;
+                }
             }
         }
 

@@ -10,7 +10,7 @@ namespace Client.States
         {
             StateType stateType = RC<RValueType>.Get<StateType>(RValueType.NextState);
             DOVirtual.DelayedCall(0.35f, () =>
-            {
+            { 
                 GSM<StateType>.Get.ChangeOn(stateType);
             });
         }

@@ -12,7 +12,7 @@ namespace Client.Systems
         
         public void Run()
         {
-            if (Input.GetKey(KeyCode.E) || Input.touchCount > 0)
+            if (Input.GetKey(KeyCode.E))
             {
                 if(GSM<StateType>.Get.CurrentStateType == StateType.Level)
                     _world.NewEntity().Get<InputEvent>().InputType = InputType.Space;

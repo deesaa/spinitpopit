@@ -13,7 +13,9 @@ namespace Client.UnityComponents
         public Rigidbody2D rigidbody2D;
 
         public Collider2D collider2D;
-        
+
+        public AimMethodType aimMethodType;
+
         private void OnCollisionEnter2D(Collision2D other)
         {
             entity.Get<SpinnerRef>().currentDirection = 
@@ -33,5 +35,11 @@ namespace Client.UnityComponents
         {
             collider2D.enabled = false;
         }
+    }
+    
+    public enum AimMethodType
+    {
+        AimOnSpinRange,
+        AimOnTouch
     }
 }

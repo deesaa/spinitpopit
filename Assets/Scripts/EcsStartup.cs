@@ -37,6 +37,8 @@ namespace Client {
             Leopotam.Ecs.UnityIntegration.EcsSystemsObserver.Create (_systems);
 #endif
             playerStats.Load();
+            
+            gameData.levelInputArea.SetEcsWorld(_world);
 
             var mainMenuState = new MainMenuState();
             GSM<StateType>.Get.Add(StateType.MainMenu, mainMenuState, _world);
@@ -55,6 +57,10 @@ namespace Client {
                 .Inject(gameData);
                 
                 
+            var selectSpinnerState = new SelectSpinnerState();
+            GSM<StateType>.Get.Add(StateType.SelectSpinner, selectSpinnerState, _world)
+                .Add((IEcsInitSystem) new SelectSpinnerWindowLoadSystem())
+                .Inject(gameData);
 
             var sideMenuState = new SideMenuState();
             GSM<StateType>.Get.Add(StateType.SideMenu, sideMenuState, _world);
@@ -65,7 +71,8 @@ namespace Client {
                 .Add(mainMenuState)
                 .Add(levelState)
                 .Add(selectLevelState)
-                .Add(sideMenuState);
+                .Add(sideMenuState)
+                .Add(selectSpinnerState);
             
            _systems
                 .Add(new FitViewportInitSystem())

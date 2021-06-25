@@ -8,6 +8,7 @@ namespace Client.States
         MainMenu,
         Level,
         Transition,
-        SideMenu
+        SideMenu,
+        SelectSpinner
     }
 }

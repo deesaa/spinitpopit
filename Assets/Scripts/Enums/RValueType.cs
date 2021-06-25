@@ -6,6 +6,7 @@
         PopitLevelStats,
         
         SelectedLevelView,
-        NextState
+        NextState,
+        SelectedSpinnerView
     }
 }

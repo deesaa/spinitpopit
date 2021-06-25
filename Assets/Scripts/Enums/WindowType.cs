@@ -6,6 +6,7 @@
         SelectLevelUI,
         LevelUI,
         Level,
-        SideMenuUI
+        SideMenuUI,
+        SelectSpinnerUI
     }
 }
