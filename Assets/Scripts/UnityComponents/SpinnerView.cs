@@ -16,6 +16,15 @@ namespace Client.UnityComponents
 
         public AimMethodType aimMethodType;
 
+        public AnimationCurve spinTimeToRotateSpeed;
+        public float rotateMultiplier;
+        public AnimationCurve spinTimeToSpeed;
+        public float speedMultiplier;
+        public AnimationCurve spinTimeAfterReleaseToSpinTime01;
+
+        public float maxSpinTime;
+        public float minSpinTimeForRelease;
+
         private void OnCollisionEnter2D(Collision2D other)
         {
             entity.Get<SpinnerRef>().currentDirection = 
@@ -39,7 +48,7 @@ namespace Client.UnityComponents
     
     public enum AimMethodType
     {
-        AimOnSpinRange,
+        AimOnSpin,
         AimOnTouch
     }
 }

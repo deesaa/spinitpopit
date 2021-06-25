@@ -32,16 +32,25 @@ public class AimView : MonoBehaviour
         gameObject.SetActive(show);
     }
 
-    public void SetAngle(Quaternion rotation)
+    public void SetAngle(Quaternion rotation, bool clamp)
     {
-        float newAngle = rotation.eulerAngles.z;
-        float angleRange = leftRangeAngle + 360 - rightRangeAngle;
+        if (clamp)
+        {
+            float newAngle = rotation.eulerAngles.z;
+            float angleRange = leftRangeAngle + 360 - rightRangeAngle;
         
-        float k = newAngle / 360f;
-        float d = angleRange * k;
+            float k = newAngle / 360f;
+            float d = angleRange * k;
         
-        newAngle = rightRangeAngle + d;
+            newAngle = rightRangeAngle + d;
         
-        arrowPivot.rotation = Quaternion.Euler(0, 0, newAngle);
+            arrowPivot.rotation = Quaternion.Euler(0, 0, newAngle);
+        }
+        else
+        {
+            Debug.Log(rotation.eulerAngles.z);
+            arrowPivot.rotation = rotation;
+        }
+        
     }
 }

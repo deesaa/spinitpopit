@@ -35,8 +35,10 @@ namespace Client.Systems
             foreach (int spinnerIndex in _spinnerFilter)
             {
                 ref SpinnerRef spinnerRef = ref _spinnerFilter.Get1(spinnerIndex);
+
+                var view = spinnerRef.spinnerView;
                 
-                if (spinnerRef.spinTime >= _gameConfig.minSpinTimeForRelease && 
+                if (spinnerRef.spinTime >= view.minSpinTimeForRelease && 
                     spinnerRef.isReleased == false)
                 {
                     spinnerRef.isReleased = true;
@@ -46,7 +48,7 @@ namespace Client.Systems
 
                     RC<RValueType>.Change<int>(RValueType.SpinsLeft, i => --i);
                 } 
-                else if (spinnerRef.spinTime <= _gameConfig.minSpinTimeForRelease)
+                else if (spinnerRef.spinTime <= view.minSpinTimeForRelease)
                 {
                     spinnerRef.isReleased = false;
                     spinnerRef.timeOnRelease = 0f;

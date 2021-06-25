@@ -35,6 +35,7 @@ namespace JDS
         {
             if (_objects.ContainsKey(key))
             {
+                if (_objects[key] == null) return default;
                 if (_objects[key] is TV value) return value;
                 DebugLog.LogWarning($"Value with key {key} can not be casted to {typeof(T)}, new created now with this type");
                 return CreateAndSetNew<TV>(key);

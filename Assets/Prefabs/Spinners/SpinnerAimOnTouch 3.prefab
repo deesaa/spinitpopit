@@ -545,7 +545,7 @@ GameObject:
   - component: {fileID: 7485544888674555496}
   - component: {fileID: 8417696600369179851}
   m_Layer: 0
-  m_Name: SpinnerAimOnTouch
+  m_Name: SpinnerAimOnTouch 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -584,6 +584,181 @@ MonoBehaviour:
   rigidbody2D: {fileID: 7485544888674555496}
   collider2D: {fileID: 8417696600369179851}
   aimMethodType: 1
+  spinTimeToRotateSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 9.390434
+      outSlope: 9.390434
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.8038664
+      value: 7.5486546
+      inSlope: 5.215382
+      outSlope: 5.215382
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 3.6629791
+      value: 10.523076
+      inSlope: 1.6249647
+      outSlope: 1.6249647
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 5.0309114
+      value: 13.545658
+      inSlope: 1.9001446
+      outSlope: 1.9001446
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 7.2806015
+      value: 17.124218
+      inSlope: 10.568044
+      outSlope: 10.568044
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 8.121642
+      value: 33.56269
+      inSlope: -36.345875
+      outSlope: -36.345875
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 8.166016
+      value: 29.469805
+      inSlope: -92.237144
+      outSlope: -92.237144
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  rotateMultiplier: 300
+  spinTimeToSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2.2805471
+      outSlope: 2.2805471
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.99338055
+      value: 2.2654512
+      inSlope: 1.3680649
+      outSlope: 1.3680649
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 2.9575958
+      value: 3.1603136
+      inSlope: 1.2587571
+      outSlope: 1.2587571
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 4.1781693
+      value: 5.6770525
+      inSlope: 1.1805367
+      outSlope: 1.1805367
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 6.425598
+      value: 6.3493524
+      inSlope: 0.6161736
+      outSlope: 0.6161736
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 7.719475
+      value: 7.556805
+      inSlope: 1.5871122
+      outSlope: 1.5871122
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 8.999421
+      value: 10.425189
+      inSlope: 2.2410188
+      outSlope: 2.2410188
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  speedMultiplier: 0.7
+  spinTimeAfterReleaseToSpinTime01:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -2.174815
+      outSlope: -2.174815
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.33354887
+      value: 0.27459294
+      inSlope: -2.079124
+      outSlope: -2.079124
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.08360704
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -0.41202262
+      outSlope: -0.41202262
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  maxSpinTime: 5
+  minSpinTimeForRelease: 0.4
 --- !u!50 &7485544888674555496
 Rigidbody2D:
   serializedVersion: 4

@@ -545,7 +545,7 @@ GameObject:
   - component: {fileID: 7485544888674555496}
   - component: {fileID: 8417696600369179851}
   m_Layer: 0
-  m_Name: SpinnerAimOnSpin
+  m_Name: SpinnerAimOnTouch 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -583,7 +583,7 @@ MonoBehaviour:
   aimView: {fileID: 3744065736267643738}
   rigidbody2D: {fileID: 7485544888674555496}
   collider2D: {fileID: 8417696600369179851}
-  aimMethodType: 0
+  aimMethodType: 1
   spinTimeToRotateSpeed:
     serializedVersion: 2
     m_Curve:
@@ -653,7 +653,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  rotateMultiplier: 100
+  rotateMultiplier: 125
   spinTimeToSpeed:
     serializedVersion: 2
     m_Curve:
@@ -728,37 +728,28 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0.0032429062
-      value: 0.98798674
-      inSlope: -4.4761977
-      outSlope: -4.4761977
+      time: 0
+      value: 1
+      inSlope: -10.268121
+      outSlope: -10.268121
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.18615139
-      value: 0.16925228
-      inSlope: -0.26212266
-      outSlope: -0.26212266
+      time: 0.097525924
+      value: -0.0014080368
+      inSlope: -0.030662993
+      outSlope: -0.030662993
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.261257
-    - serializedVersion: 3
-      time: 0.7356378
-      value: -0.0014648438
-      inSlope: -0.03272015
-      outSlope: -0.03272015
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.09483777
+      outWeight: 0.07964445
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: 0.005541048
-      outSlope: 0.005541048
+      inSlope: 0.0015601964
+      outSlope: 0.0015601964
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334

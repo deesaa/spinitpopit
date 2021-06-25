@@ -31,7 +31,10 @@ namespace Client.Systems
         {
             ref SpinnerRef spinnerRef = ref _spinnerFilter.Get1(spinnerIndex);
             spinnerRef.timeAfterRelease += Time.deltaTime;
-            float k = _gameConfiguration.spinTimeAfterReleaseToSpinTime01.Evaluate(spinnerRef.timeAfterRelease/spinnerRef.timeOnRelease);
+            
+            var view = spinnerRef.spinnerView;
+            
+            float k = view.spinTimeAfterReleaseToSpinTime01.Evaluate(spinnerRef.timeAfterRelease/spinnerRef.timeOnRelease);
             spinnerRef.spinTime = spinnerRef.timeOnRelease * k;
         }
         
@@ -42,7 +45,9 @@ namespace Client.Systems
                 if (_inputFilter.Get1(inputIndex).InputType == InputType.Space)
                 {
                     ref SpinnerRef spinnerRef = ref _spinnerFilter.Get1(spinnerIndex);
-                    spinnerRef.spinTime += Time.deltaTime;
+                    
+                    if(spinnerRef.spinTime < spinnerRef.spinnerView.maxSpinTime)
+                        spinnerRef.spinTime += Time.deltaTime;
                 } 
             }
         }

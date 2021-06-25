@@ -22,7 +22,7 @@ namespace Client.Systems
 
                 switch (spinnerRef.spinnerView.aimMethodType)
                 {
-                    case AimMethodType.AimOnSpinRange:
+                    case AimMethodType.AimOnSpin:
                         AimOnSpin(spinnerRef);
                         break;
                     case AimMethodType.AimOnTouch:
@@ -41,7 +41,7 @@ namespace Client.Systems
             else
             {
                 spinnerRef.spinnerView.aimView.Show(true);
-                spinnerRef.spinnerView.aimView.SetAngle(spinnerRef.spinnerView.body.transform.rotation);
+                spinnerRef.spinnerView.aimView.SetAngle(spinnerRef.spinnerView.body.transform.rotation, true);
             }
         }
 
@@ -57,14 +57,18 @@ namespace Client.Systems
                 {
                     if (_inputFilter.Get1(index).InputType == InputType.Touch)
                     {
-                        Vector2 touchPosition = _inputFilter.Get1(index).touchPoint;
-                        Vector2 spinnerPosition = spinnerRef.spinnerView.transform.position;
+                        Vector3 touchPosition = _inputFilter.Get1(index).touchPoint;
+                       // Vector2 spinnerPosition = spinnerRef.spinnerView.transform.position;
 
-                        Vector2 direction = touchPosition - spinnerPosition;
+                       // Vector2 direction = touchPosition - spinnerPosition;
 
-                        var rotation = Quaternion.LookRotation(direction, Vector3.up);
+                      //  Debug.DrawRay(spinnerPosition, direction, Color.red, 3f);
+
+                        //var rotation = Quaternion.LookRotation(direction, Vector3.down);
+
+                       // spinnerRef.spinnerView.aimView.SetAngle(rotation, false);
                         
-                        spinnerRef.spinnerView.aimView.SetAngle(rotation);
+                        spinnerRef.spinnerView.aimView.arrowPivot.transform.up = touchPosition - spinnerRef.spinnerView.aimView.arrowPivot.transform.position;
                         
                         spinnerRef.spinnerView.aimView.Show(true);
                     }

@@ -16,7 +16,10 @@ namespace Client.Systems
         {
             foreach (int index in _filter)
             {
-                float rotateSpeed = _gameConfiguration.spinTimeToRotateSpeed.Evaluate(_filter.Get1(index).spinTime);
+                var view = _filter.Get1(index).spinnerView;
+                
+                float rotateSpeed = view.spinTimeToRotateSpeed.Evaluate(_filter.Get1(index).spinTime);
+                rotateSpeed *= _filter.Get1(index).spinnerView.rotateMultiplier;
                 
                 _filter.Get1(index).spinnerView.body.transform
                         .Rotate(Vector3.forward * rotateSpeed * Time.deltaTime);
