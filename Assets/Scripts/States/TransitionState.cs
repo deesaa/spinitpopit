@@ -8,7 +8,7 @@ namespace Client.States
     {
         public void OnEnter()
         {
-            StateType stateType = RC<RValueType>.Get<StateType>(RValueType.NextState);
+            StateType stateType = Model.Get.Get<StateType>("NextState");
             DOVirtual.DelayedCall(0.35f, () =>
             { 
                 GSM<StateType>.Get.ChangeOn(stateType);

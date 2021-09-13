@@ -37,6 +37,15 @@ namespace JDS
         {
             return list[Random.Range(0, list.Count)];
         }
+        
+        public static T Get<T>(this object o)
+        {
+            if (o is T value)
+                return value;
+            
+            DebugLog.LogError($"object {o} is not type of {typeof(T)}, it is type of {o.GetType()}");
+            return default;
+        }
     }
 
     public class ViewRect

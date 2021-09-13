@@ -46,7 +46,8 @@ namespace Client.Systems
                     spinnerRef.timeOnRelease = spinnerRef.spinTime;
                     spinnerRef.currentDirection = spinnerRef.spinnerView.aimView.arrowPivot.up;
 
-                    RC<RValueType>.Change<int>(RValueType.SpinsLeft, i => --i);
+                    
+                    Model.Get.Change<int>("SpinsLeft", i => --i);
                 } 
                 else if (spinnerRef.spinTime <= view.minSpinTimeForRelease)
                 {

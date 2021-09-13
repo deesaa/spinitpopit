@@ -3,6 +3,7 @@ using Client.States;
 using Client.UnityComponents;
 using Components;
 using JDS;
+using JDS.BindECS;
 using Leopotam.Ecs;
 using UnityEngine;
 
@@ -18,8 +19,7 @@ namespace Client.Systems
         {
             LevelView levelPrefab;
             
-            
-            var selectedLevel = RC<RValueType>.Get<LevelView>(RValueType.SelectedLevelView);
+            var selectedLevel = Model.Get.Get<LevelView>("SelectedLevelView");
             if (selectedLevel == null)
                 levelPrefab = _gameData.levelViews[0];
             else
@@ -29,18 +29,9 @@ namespace Client.Systems
             level.transform.localPosition = Vector3.zero;
 
             _world.NewEntity().Get<LevelRef>().levelView = level;
-            
-            foreach (PopitView p in level.popitViews)
-            {
-                EcsEntity popitEntity = _world.NewEntity();
-                popitEntity.Get<PopitRef>().popitView = p;
-                p.entity = popitEntity;
-            }
-
-
 
             SpinnerView spinnerPrefab;
-            var selectedSpinner = RC<RValueType>.Get<SpinnerView>(RValueType.SelectedSpinnerView);
+            var selectedSpinner = Model.Get.Get<SpinnerView>("SelectedSpinnerView");
 
             if (selectedSpinner == null)
                 spinnerPrefab = _gameData.spinnerViews[0];
@@ -64,10 +55,5 @@ namespace Client.Systems
             EcsEntity levelInputArea = _world.NewEntity();
             levelInputArea.Get<LevelInputAreaRef>().inputArea = _gameData.levelInputArea;
         }
-    }
-
-    public struct LevelInputAreaRef
-    {
-        public InputArea inputArea;
     }
 }

@@ -7,7 +7,11 @@ using UnityEngine.UI;
 
 namespace Client.States
 {
-    public class LevelUIWindow : Window<WindowType, RValueType>
+    
+
+    
+    
+    public class LevelUIWindow : Window<WindowType, string>
     {
         public Text popitStatsCounter;
         public Text spinsLeftCounter;
@@ -16,14 +20,21 @@ namespace Client.States
 
         protected override void OnAwake()
         {
-            Bind(RValueType.PopitLevelStats, OnLevelStatsChange);
-            Bind(RValueType.SpinsLeft, OnSpinsLeftChange);
+            Bind("PopitLevelTaken", OnLevelStatsChange, Model.Get);
+            Bind("PopitLevelCount", OnLevelStatsChange, Model.Get);
+            Bind("SpinsLeft", OnSpinsLeftChange, Model.Get);
+            
+            
+            
             sideMenuBtn.onClick.AddListener(OnSideMenuButton);
         }
         
-        private void OnSpinsLeftChange()
+        private void OnSpinsLeftChange(object value)
         {
-            int spinsLeft = RC<RValueType>.Get<int>(RValueType.SpinsLeft);
+            //int spinsLeft = RC<RValueType>.Get<int>(RValueType.SpinsLeft);
+            //int spinsLeft = Model.Get.Get<int>("SpinsLeft");
+
+            int spinsLeft = value.Get<int>();
             
             if(spinsLeft <= -1)
                 Messenger.Get.SendSureMessage("SureGameOver");
@@ -33,13 +44,16 @@ namespace Client.States
                 $"Spins Left: {spinsLeft}";
         }
         
-        private void OnLevelStatsChange()
+        private void OnLevelStatsChange(object value)
         {
-            PopitLevelStats popitLevelStats 
-                = RC<RValueType>.Get<PopitLevelStats>(RValueType.PopitLevelStats);
+           // PopitLevelStats popitLevelStats 
+            //    = RC<RValueType>.Get<PopitLevelStats>(RValueType.PopitLevelStats);
+
+            int popitLevelTaken = Model.Get.Get<int>("PopitLevelTaken");
+            int popitLevelCount = Model.Get.Get<int>("PopitLevelCount");
         
             popitStatsCounter.text =
-                $"Popits Taken: {popitLevelStats.taken} / {popitLevelStats.count}";
+                $"Popits Taken: {popitLevelTaken} / {popitLevelCount}";
         }
 
         private void OnSideMenuButton()

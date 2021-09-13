@@ -2,6 +2,7 @@
 using Client.ReactiveValues;
 using Components;
 using JDS;
+using JDS.BindECS;
 using JDS.Messenger;
 using Leopotam.Ecs;
 using UnityEngine;
@@ -9,22 +10,22 @@ using UnityEngine.UI;
 
 namespace Client.UnityComponents
 {
-    public class SelectLevelCellView : MonoBehaviour
+    public class SelectLevelCellView : EntityBehaviour<SelectLevelCellRef>
     {
         public Button cellButton;
-        
+
         [SerializeField] private Text levelIndex;
-        
-        public EcsEntity entity;
 
         private void Awake()
         {
+            GetBaseComponent()._cellView = this;
+
             cellButton.onClick.AddListener(OnCellClick);
         }
 
         public void OnCellClick()
         {
-            RC<RValueType>.Set(RValueType.SelectedLevelView, entity.Get<SelectLevelCellRef>()._levelView);
+            Model.Get.Set("SelectedLevelView", Entity.Get<SelectLevelCellRef>()._levelView);
             Messenger.Get.SendMessage("OnLevelClick");
         }
 
@@ -36,6 +37,11 @@ namespace Client.UnityComponents
         public void SetLevelIndex(int levelIndex)
         {
             this.levelIndex.text = $"Level {levelIndex}";
+        }
+
+        public void SetLevelView(LevelView levelView)
+        {
+            GetBaseComponent()._levelView = levelView;
         }
     }
 }

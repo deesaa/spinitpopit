@@ -1,12 +1,17 @@
-﻿using Leopotam.Ecs;
+﻿using System;
+using Components;
 using UnityEngine;
 
 namespace Client.UnityComponents
 {
-    public class PopitView : MonoBehaviour
+    public class PopitView : EntityBehaviour<PopitRef>
     {
-        public EcsEntity entity;
         public SpriteRenderer _spriteRenderer;
+
+        private void Awake()
+        {
+            GetBaseComponent().popitView = this;
+        }
 
         public void OnTake()
         {

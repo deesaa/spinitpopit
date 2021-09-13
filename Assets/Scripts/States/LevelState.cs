@@ -19,15 +19,11 @@ namespace Client.States
         {
             WM<WindowType>.Show(WindowType.LevelUI);
             WM<WindowType>.Show(WindowType.Level);
+            
+            Model.Get.Set("PopitLevelCount", 3);
+            Model.Get.Set("PopitLevelTaken", 0);
+            Model.Get.Set("SpinsLeft", 999);
 
-            RC<RValueType>.Set(RValueType.PopitLevelStats, new PopitLevelStats()
-            {
-                count = 3,
-                taken = 0
-            });
-            
-            RC<RValueType>.Set(RValueType.SpinsLeft, 3);
-            
             Messenger.Get.EnableReceiver(this);
         }
 

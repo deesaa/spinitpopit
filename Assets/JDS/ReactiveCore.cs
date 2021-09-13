@@ -3,35 +3,47 @@ using System.Collections.Generic;
 
 namespace JDS
 {
+
+    public interface IReactiveCoreObserver<T>
+    {
+        void OnKeyValueChanged(T key, object nextValue);
+    }
+
+
     /// <summary>
     /// Reactive Core
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public static class RC<T>
+    public class ReactiveCore<T>
     {
-        private static readonly Dictionary<T, object> _objects = new Dictionary<T, object>();
+        private  readonly Dictionary<T, object> _objects = new Dictionary<T, object>();
         
-        private static readonly Dictionary<T, List<BindHandler<T>>> _subscriptions = new Dictionary<T, List<BindHandler<T>>>();
+        private  readonly Dictionary<T, List<BindHandler<T>>> _subscriptions = new Dictionary<T, List<BindHandler<T>>>();
 
-        public static void Set(T key, object value)
+        private IReactiveCoreObserver<T> _debugObserver;
+
+        public  void Set(T key, object value)
         {
             if(_objects.ContainsKey(key))
                 _objects[key] = value;   
             else 
                 _objects.Add(key, value);
             
-            React(key);
+            if(_debugObserver != null)
+                _debugObserver.OnKeyValueChanged(key, value);
+            
+            React(key, value);
         }
 
-        public static void React(T key)
+        public void React(T key, object value)
         {
             if(_subscriptions.ContainsKey(key))
-                _subscriptions[key].ForEach(x => x.Invoke());
+                _subscriptions[key].ForEach(x => x.Invoke(value));
             else
                 DebugLog.Log($"Key {key} has no subscriptions");
         }
 
-        public static TV Get<TV>(T key)
+        public TV Get<TV>(T key)
         {
             if (_objects.ContainsKey(key))
             {
@@ -45,16 +57,16 @@ namespace JDS
             return CreateAndSetNew<TV>(key);
         }
 
-        private static TV CreateAndSetNew<TV>(T key)
+        private TV CreateAndSetNew<TV>(T key)
         {
             TV newValue = default;
             Set(key, newValue);
             return newValue;
         }
 
-        public static BindHandler<T> Bind(T key, Action action)
+        public BindHandler<T> Bind(T key, Action<object> action)
         {
-            BindHandler<T> handler = new BindHandler<T>(action, key);
+            BindHandler<T> handler = new BindHandler<T>(action, key, this);
 
             if (!_subscriptions.ContainsKey(key))
                 _subscriptions.Add(key, new List<BindHandler<T>> { handler });
@@ -64,47 +76,54 @@ namespace JDS
             return handler;
         }
 
-        public static void Unbind(T key, Action action)
+        public void Unbind(T key, Action<object> action)
         {
             _subscriptions[key]?.RemoveAll(handler => handler.IsEqual(key, action));
         }
     
-        public static void UnbindAll(T key)
+        public void UnbindAll(T key)
         {
             _subscriptions[key]?.Clear();
         }
 
-        public static void Change<TV>(T key, Func<TV, TV> change) where TV : struct
+        public void Change<TV>(T key, Func<TV, TV> change) where TV : struct
         { 
             Set(key, change(Get<TV>(key)));
         }
         
-        public static void Change<TV>(T key, Action<TV> change) where TV : class
+        /*public void Change<TV>(T key, Action<TV> change) where TV : class
         {
             change(Get<TV>(key));
             React(key);
+        }*/
+        
+        public void SetDebugObserver(IReactiveCoreObserver<T> reactiveCoreObserver)
+        {
+            _debugObserver = reactiveCoreObserver;
         }
     }
 
     public readonly struct BindHandler<T>
     {
-        private readonly Action _action;
+        private readonly Action<object> _action;
         private readonly T _valueType;
+        private readonly ReactiveCore<T> _parentReactiveCore;
 
-        public BindHandler(Action action, T valueType)
+        public BindHandler(Action<object> action, T valueType, ReactiveCore<T> parentReactiveCore)
         {
             _action = action;
             _valueType = valueType;
+            _parentReactiveCore = parentReactiveCore;
         }
 
-        public void Invoke() => _action();
+        public void Invoke(object value) => _action(value);
 
         public void Destroy()
         {
-            RC<T>.Unbind(_valueType, _action);
+            _parentReactiveCore.Unbind(_valueType, _action);
         }
 
-        public bool IsEqual(T valueType, Action action)
+        public bool IsEqual(T valueType, Action<object> action)
         {
             return _action == action && valueType.Equals(_valueType);
         }

@@ -48,7 +48,7 @@ namespace Client.Systems
                     
                     if(spinnerRef.spinTime < spinnerRef.spinnerView.maxSpinTime)
                         spinnerRef.spinTime += Time.deltaTime;
-                } 
+                }
             }
         }
     }

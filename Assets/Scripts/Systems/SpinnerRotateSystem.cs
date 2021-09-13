@@ -18,7 +18,7 @@ namespace Client.Systems
             {
                 var view = _filter.Get1(index).spinnerView;
                 
-                float rotateSpeed = view.spinTimeToRotateSpeed.Evaluate(_filter.Get1(index).spinTime);
+                float rotateSpeed = view.spinTimeToRotateSpeed_.Evaluate(_filter.Get1(index).spinTime);
                 rotateSpeed *= _filter.Get1(index).spinnerView.rotateMultiplier;
                 
                 _filter.Get1(index).spinnerView.body.transform

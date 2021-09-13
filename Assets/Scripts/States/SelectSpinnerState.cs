@@ -29,8 +29,9 @@ namespace States
                     break;
                 }
                 case "OnSpinnerClick":
-                {
-                    RC<RValueType>.Set(RValueType.NextState, StateType.Level);
+                { 
+                    //RC<RValueType>.Set(RValueType.NextState, StateType.Level);
+                    Model.Get.Set("NextState", StateType.Level);
                     GSM<StateType>.Get.ChangeOn(StateType.Transition);
                     break;
                 }

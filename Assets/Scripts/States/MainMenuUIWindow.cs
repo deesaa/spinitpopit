@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace Client.States
 {
-    public class MainMenuUIWindow : Window<WindowType, RValueType>
+    public class MainMenuUIWindow : Window<WindowType, string>
     {
         public Button startButton;
 

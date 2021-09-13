@@ -1,6 +1,7 @@
 ﻿using System;
 using Components;
 using Leopotam.Ecs;
+using UnityComponents;
 using UnityEngine;
 
 namespace Client.UnityComponents
@@ -25,6 +26,8 @@ namespace Client.UnityComponents
         public float maxSpinTime;
         public float minSpinTimeForRelease;
 
+        public IScriptFloatCurve spinTimeToRotateSpeed_;
+
         private void OnCollisionEnter2D(Collision2D other)
         {
             entity.Get<SpinnerRef>().currentDirection = 
@@ -36,7 +39,7 @@ namespace Client.UnityComponents
             PopitView popitView = other.GetComponent<PopitView>();
             if (popitView != null)
             {
-                popitView.entity.Get<TriggerEvent>().triggerType = TriggerType.SpinnerEnter;
+                popitView.Entity.Get<TriggerEvent>().triggerType = TriggerType.SpinnerEnter;
             }
         }
 
@@ -44,11 +47,5 @@ namespace Client.UnityComponents
         {
             collider2D.enabled = false;
         }
-    }
-    
-    public enum AimMethodType
-    {
-        AimOnSpin,
-        AimOnTouch
     }
 }

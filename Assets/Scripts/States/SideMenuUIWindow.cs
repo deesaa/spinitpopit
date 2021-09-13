@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace States
 {
-    public class SideMenuUIWindow : Window<WindowType, RValueType>
+    public class SideMenuUIWindow : Window<WindowType, string>
     {
         public Button backButton;
         public Button levelsButton;

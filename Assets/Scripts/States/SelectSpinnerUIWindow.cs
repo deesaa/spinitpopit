@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace States
 {
-    public class SelectSpinnerUIWindow : Window<WindowType, RValueType>
+    public class SelectSpinnerUIWindow : Window<WindowType, string>
     {
         public Button backButton;
         protected override void OnAwake()

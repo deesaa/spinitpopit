@@ -5,6 +5,7 @@ using Client.Components;
 using Client.ReactiveValues;
 using Client.States;
 using Client.Systems;
+using Client.Systems.Observe;
 using Client.UnityComponents;
 using Components;
 using JDS;
@@ -13,6 +14,7 @@ using Leopotam.Ecs;
 using States;
 using UnityEngine;
 using UnityEngine.Networking;
+using Object = UnityEngine.Object;
 
 namespace Client {
     sealed class EcsStartup : MonoBehaviour 
@@ -24,17 +26,21 @@ namespace Client {
         public GameData gameData;
         public GameConfiguration gameConfig;
         public PlayerStats playerStats;
-        
-        void Start ()
+
+        private void Awake()
         {
-            //Application.targetFrameRate = 30;
-                
             _world = new EcsWorld ();
             _systems = new EcsSystems (_world);
 
+            Model.MainWorld = _world;
+        }
+
+        void Start ()
+        {
 #if UNITY_EDITOR
             Leopotam.Ecs.UnityIntegration.EcsWorldObserver.Create (_world);
             Leopotam.Ecs.UnityIntegration.EcsSystemsObserver.Create (_systems);
+            UnityReactiveCoreObserver.Create(Model.Get);
 #endif
             playerStats.Load();
             
@@ -88,6 +94,8 @@ namespace Client {
                 
                 .Add(new DeleteSystem())
                 
+                .Add(new GameOverConditionObserveSystem())
+                
                 .OneFrame<InputEvent>()
                 .OneFrame<TriggerEvent>()
 
@@ -96,7 +104,7 @@ namespace Client {
                 .Inject(playerStats)
                 
                 .Init ();
-
+           
            GSM<StateType>.Get.ChangeOn(StateType.MainMenu);
         }
 

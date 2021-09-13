@@ -3,7 +3,7 @@ using JDS;
 
 namespace Client.States
 {
-    public class LevelWindow : Window<WindowType, RValueType>
+    public class LevelWindow : Window<WindowType, string>
     {
         
     }

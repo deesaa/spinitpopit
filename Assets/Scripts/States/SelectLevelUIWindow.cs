@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 namespace Client.States
 {
-    public class SelectLevelUIWindow : Window<WindowType, RValueType>
+    public class SelectLevelUIWindow : Window<WindowType, string>
     {
         public Button backButton;
 

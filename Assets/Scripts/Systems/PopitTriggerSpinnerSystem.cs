@@ -4,6 +4,7 @@ using Client.States;
 using Client.UnityComponents;
 using Components;
 using JDS;
+using JDS.BindECS;
 using Leopotam.Ecs;
 using UnityEngine.EventSystems;
 
@@ -23,12 +24,8 @@ namespace Client.Systems
 
                 _filter.Get1(index).popitView.OnTake();
                 _filter.Get1(index).isTaken = true;
-
-                RC<RValueType>.Change<PopitLevelStats>(RValueType.PopitLevelStats, stats =>
-                {
-                    stats.taken++;
-                    return stats;
-                });
+                
+                Model.Get.Change<int>("PopitTaken", i => ++i);
             }
         }
     }

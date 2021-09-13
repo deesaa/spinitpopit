@@ -7,6 +7,6 @@ namespace Client.UnityComponents
     public class LevelView : MonoBehaviour
     {
         public Transform spinnerStartPoint;
-        public List<PopitView> popitViews;
+        //public List<PopitView> popitViews;
     }
 }

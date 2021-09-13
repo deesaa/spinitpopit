@@ -1,4 +1,5 @@
 ﻿using Client.ReactiveValues;
+using Client.UnityComponents;
 using Components;
 using JDS;
 using JDS.Messenger;
@@ -8,22 +9,21 @@ using UnityEngine.UI;
 
 namespace UnityComponents
 {
-    public class SelectSpinnerCellView : MonoBehaviour
+    public class SelectSpinnerCellView : EntityBehaviour<SelectSpinnerViewCellRef>
     {
         public Button cellButton;
         
-        public EcsEntity entity;
-
         [SerializeField] private Text spinnerIndex;
         
         private void Awake()
         {
+            GetBaseComponent().SelectSpinnerCellView = this;
             cellButton.onClick.AddListener(OnCellClick);
         }
 
         public void OnCellClick()
         {
-            RC<RValueType>.Set(RValueType.SelectedSpinnerView, entity.Get<SelectSpinnerViewCellRef>().spinnerView);
+            Model.Get.Set("SelectedSpinnerView", Entity.Get<SelectSpinnerViewCellRef>().spinnerView);
             Messenger.Get.SendMessage("OnSpinnerClick");
         }
 
@@ -35,6 +35,11 @@ namespace UnityComponents
         public void SetSpinnerIndex(int spinnerIndex)
         {
             this.spinnerIndex.text = $"Spinner {spinnerIndex}";
+        }
+
+        public void SetSpinnerView(SpinnerView spinnerView)
+        {
+            GetBaseComponent().spinnerView = spinnerView;
         }
     }
 }

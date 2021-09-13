@@ -1,4 +1,5 @@
-﻿using Client.UnityComponents;
+﻿using System.Threading.Tasks;
+using Client.UnityComponents;
 using Components;
 using Leopotam.Ecs;
 using UnityEngine;
@@ -11,28 +12,36 @@ namespace Client.Systems
         private EcsWorld _world;
 
         private EcsFilter<SelectSpinnerViewCellRef> _filter;
+
+        private bool _isInitCancelRequested;
         
         public void Init()
         {
-            int index = 0;
-            
+
+            _isInitCancelRequested = false;
+            CreateCells();
+        }
+        
+        public async void CreateCells()
+        {
+            int spinnerIndex = 1;
             foreach (var spinnerView in _gameData.spinnerViews)
             {
-                index++;
-                SelectSpinnerViewCellRef cellRef = new SelectSpinnerViewCellRef();
-                cellRef.spinnerView = spinnerView;
+                if(_isInitCancelRequested)
+                    return;
 
                 var cellView = Object.Instantiate(_gameData.selectSpinnerCellView, _gameData.selectSpinnerCellGrid.transform);
-                cellRef.SelectSpinnerCellView = cellView;
-                cellView.SetSpinnerIndex(index);
-
-                var entity = _world.NewEntity().Replace(cellRef);
-                cellView.entity = entity;
+                cellView.SetSpinnerIndex(spinnerIndex);
+                cellView.SetSpinnerView(spinnerView);
+                
+                await Task.Yield();
             }
         }
 
         public void Destroy()
         {
+            _isInitCancelRequested = true;
+            
             foreach (var index in _filter)
             {
                 Delete delete = new Delete();

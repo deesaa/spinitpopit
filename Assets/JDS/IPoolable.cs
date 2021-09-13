@@ -9,4 +9,5 @@ namespace JDS
         public GlobalPool parent;
         public void Restore() => parent.Restore(this);
     }
+    
 }

@@ -8,9 +8,9 @@ namespace Components
         public bool isTaken;
     }
     
-    public struct PopitLevelStats
+    /*public struct PopitLevelStats
     {
         public int count;
         public int taken;
-    }
+    }*/
 }

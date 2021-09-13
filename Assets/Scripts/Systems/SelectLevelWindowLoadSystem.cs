@@ -14,12 +14,12 @@ namespace Client.Systems
     {
         private GameData _gameData;
         private EcsWorld _world;
-        private bool InitCancelRequest = false;
+        private bool _isInitCancelRequest = false;
         private EcsFilter<SelectLevelCellRef> _filter;
         
         public void Init()
         {
-             InitCancelRequest = false;
+             _isInitCancelRequest = false;
              CreateCells();
         }
 
@@ -28,27 +28,21 @@ namespace Client.Systems
             int levelIndex = 1;
             foreach (var levelView in _gameData.levelViews)
             {
-                if(InitCancelRequest)
+                if(_isInitCancelRequest)
                     return;
                 
-                SelectLevelCellRef cellRef = new SelectLevelCellRef();
                 var cellView =  Object.Instantiate(_gameData.selectLevelCellView, _gameData.selectLevelCellsGrid.transform);
-                cellRef._cellView = cellView;
-                cellRef._levelView = levelView;
-
-                EcsEntity entity = _world.NewEntity();
-                cellView.entity = entity;
+                cellView.SetLevelView(levelView);
                 cellView.SetLevelIndex(levelIndex);
-                entity.Replace(cellRef);
 
-                levelIndex++;
+               levelIndex++;
                 await Task.Yield();
             }
         }
 
         public void Destroy()
         {
-            InitCancelRequest = true;
+            _isInitCancelRequest = true;
             foreach (var index in _filter)
             {
                 ref Delete delete = ref _filter.GetEntity(index).Get<Delete>();
